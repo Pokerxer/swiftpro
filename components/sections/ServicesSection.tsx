@@ -1,0 +1,297 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  ArrowRight, Server, Code, Shield, Cloud, Briefcase, Headphones, 
+  ArrowUpRight, CheckCircle2, Zap, ShieldCheck, Lock, CloudLightning, 
+  Code2, Users, Database
+} from "lucide-react";
+
+const services = [
+  {
+    id: "1",
+    slug: "it-infrastructure",
+    title: "IT Infrastructure",
+    shortDescription: "Robust and scalable IT infrastructure solutions for modern businesses. We design, implement, and maintain enterprise-grade networks.",
+    icon: Server,
+    gradient: "from-blue-500 to-cyan-500",
+    features: ["Network Design", "Server Virtualization", "Data Centers", "24/7 Monitoring"],
+    stats: ["99.9% Uptime", "500+ Networks", "100+ Data Centers"],
+  },
+  {
+    id: "2",
+    slug: "software-development",
+    title: "Software Development",
+    shortDescription: "Custom software solutions tailored to your business requirements. From web apps to enterprise systems.",
+    icon: Code2,
+    gradient: "from-purple-500 to-pink-500",
+    features: ["Web Applications", "Mobile Apps", "Enterprise Software", "API Integration"],
+    stats: ["200+ Apps", "50+ Developers", "100% Custom"],
+  },
+  {
+    id: "3",
+    slug: "cybersecurity",
+    title: "Cybersecurity",
+    shortDescription: "Comprehensive security solutions to protect your digital assets from evolving threats.",
+    icon: Lock,
+    gradient: "from-red-500 to-orange-500",
+    features: ["Penetration Testing", "Security Audits", "Incident Response", "Compliance"],
+    stats: ["500+ Secured", "100% Detection", "24/7 Monitoring"],
+  },
+  {
+    id: "4",
+    slug: "cloud-solutions",
+    title: "Cloud Solutions",
+    shortDescription: "Scalable cloud services for modern business operations. Migrate, optimize, and innovate.",
+    icon: CloudLightning,
+    gradient: "from-sky-500 to-blue-500",
+    features: ["Cloud Migration", "AWS/Azure/GCP", "Hybrid Cloud", "Cost Optimization"],
+    stats: ["99.9% Uptime", "50% Cost Save", "100+ Migrations"],
+  },
+  {
+    id: "5",
+    slug: "it-consulting",
+    title: "IT Consulting",
+    shortDescription: "Strategic IT guidance to drive business transformation and digital innovation.",
+    icon: Users,
+    gradient: "from-green-500 to-emerald-500",
+    features: ["Digital Strategy", "IT Planning", "Technology Assessment", "Process Optimization"],
+    stats: ["200+ Clients", "50+ Industries", "100% Success"],
+  },
+  {
+    id: "6",
+    slug: "managed-it-support",
+    title: "Managed IT Support",
+    shortDescription: "Reliable managed IT services to keep your business running smoothly 24/7.",
+    icon: Headphones,
+    gradient: "from-indigo-500 to-purple-500",
+    features: ["24/7 Help Desk", "Proactive Monitoring", "System Maintenance", "Remote Support"],
+    stats: ["5000+ Tickets", "15min Response", "99% Resolution"],
+  },
+];
+
+const categories = [
+  { id: "all", label: "All Services" },
+  { id: "infrastructure", label: "Infrastructure" },
+  { id: "development", label: "Development" },
+  { id: "security", label: "Security" },
+  { id: "consulting", label: "Consulting" },
+];
+
+export default function ServicesSection() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+
+  const filteredServices = activeCategory === "all" 
+    ? services 
+    : services.filter(s => {
+        if (activeCategory === "infrastructure") return s.id === "1" || s.id === "4";
+        if (activeCategory === "development") return s.id === "2";
+        if (activeCategory === "security") return s.id === "3";
+        if (activeCategory === "consulting") return s.id === "5" || s.id === "6";
+        return true;
+      });
+
+  return (
+    <section className="py-20 md:py-32 bg-gray-50 dark:bg-[#0F172A] relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary dark:text-accent text-sm font-medium mb-4"
+          >
+            <Zap className="w-4 h-4" />
+            Our Services
+          </motion.span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary dark:text-white mb-6">
+            Comprehensive IT Solutions
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            We deliver end-to-end technology solutions tailored to drive your business forward in the digital age.
+          </p>
+        </motion.div>
+
+        {/* Category Filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-2 mb-12"
+        >
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setActiveCategory(category.id)}
+              className={`relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all{
+                activeCategory duration-300 $ === category.id
+                  ? "text-white"
+                  : "text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white"
+              }`}
+            >
+              {activeCategory === category.id && (
+                <motion.div
+                  layoutId="active-category"
+                  className="absolute inset-0 bg-primary rounded-xl"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{category.label}</span>
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Services Grid */}
+        <motion.div 
+          layout
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredServices.map((service, index) => (
+              <motion.div
+                key={service.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                onMouseEnter={() => setHoveredService(service.id)}
+                onMouseLeave={() => setHoveredService(null)}
+              >
+                <Link href={`/services/${service.slug}`} className="group block h-full">
+                  <div className="relative h-full p-6 md:p-8 rounded-3xl bg-white dark:bg-[#1E293B] border border-gray-100 dark:border-slate-700 hover:border-transparent transition-all duration-500 overflow-hidden">
+                    {/* Gradient Background on Hover */}
+                    <div 
+                      className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                    />
+                    
+                    {/* Animated Border */}
+                    <div className="absolute inset-0 rounded-3xl p-px bg-gradient-to-r from-gray-200 to-gray-200 dark:from-slate-700 dark:to-slate-700 group-hover:from-transparent group-hover:to-transparent transition-all duration-500">
+                      <div className="absolute inset-0 rounded-3xl bg-white dark:bg-[#1E293B]" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative">
+                      {/* Icon */}
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 shadow-lg`}
+                      >
+                        <service.icon className="w-8 h-8 text-white" />
+                      </motion.div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-heading font-bold text-primary dark:text-white mb-3 group-hover:text-primary transition-colors">
+                        {service.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        {service.shortDescription}
+                      </p>
+
+                      {/* Features */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {service.features.slice(0, 3).map((feature, i) => (
+                          <span
+                            key={i}
+                            className="px-3 py-1 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 text-xs font-medium"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Stats */}
+                      <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-slate-700">
+                        {service.stats.map((stat, i) => (
+                          <div key={i} className="text-center">
+                            <p className="text-sm font-bold text-primary dark:text-white">{stat}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Learn More */}
+                      <motion.div
+                        whileHover={{ x: 5 }}
+                        className="flex items-center gap-2 text-primary font-semibold text-sm"
+                      >
+                        <span>Learn More</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
+                    </div>
+
+                    {/* Corner Accent */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: hoveredService === service.id ? 1 : 0, scale: hoveredService === service.id ? 1 : 0 }}
+                      className="absolute top-0 right-0 w-24 h-24"
+                    >
+                      <div className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-gradient-to-br ${service.gradient} opacity-20`} />
+                    </motion.div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* View All CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="text-center mt-16"
+        >
+          <Link
+            href="/services"
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-primary text-white font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1"
+          >
+            Explore All Services
+            <motion.span
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.span>
+          </Link>
+        </motion.div>
+
+        {/* Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 flex flex-wrap justify-center items-center gap-8 opacity-60"
+        >
+          {[
+            { icon: ShieldCheck, label: "ISO 27001 Certified" },
+            { icon: CheckCircle2, label: "10+ Years Experience" },
+            { icon: Zap, label: "24/7 Support" },
+          ].map((badge, index) => (
+            <div key={index} className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+              <badge.icon className="w-5 h-5" />
+              <span className="text-sm font-medium">{badge.label}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
