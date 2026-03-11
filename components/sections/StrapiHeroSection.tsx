@@ -29,21 +29,81 @@ interface HeroSlideData {
   stats?: { value: string; label: string }[];
 }
 
+const DEFAULT_SLIDES: HeroSlideData[] = [
+  {
+    title: "Empowering Businesses with",
+    subtitle: "Leading ICT Company in Nigeria",
+    ctaPrimaryText: "Get a Free Consultation",
+    ctaPrimaryLink: "/contact",
+    ctaSecondaryText: "View Our Services",
+    ctaSecondaryLink: "/services",
+    features: [
+      { icon: "Code", label: "Custom Software" },
+      { icon: "Shield", label: "Cyber Security" },
+      { icon: "Cloud", label: "Cloud Solutions" },
+    ],
+    stats: [
+      { value: "200+", label: "Clients" },
+      { value: "500+", label: "Projects" },
+      { value: "98%", label: "Success Rate" },
+    ],
+  },
+  {
+    title: "Protect Your Business with",
+    subtitle: "Enterprise Security Solutions",
+    ctaPrimaryText: "Explore Security Services",
+    ctaPrimaryLink: "/services/cybersecurity",
+    ctaSecondaryText: "Get a Security Audit",
+    ctaSecondaryLink: "/contact",
+    features: [
+      { icon: "Shield", label: "Penetration Testing" },
+      { icon: "Zap", label: "24/7 Monitoring" },
+      { icon: "CheckCircle", label: "Compliance" },
+    ],
+  },
+  {
+    title: "Scale Your Business with",
+    subtitle: "Cloud Transformation",
+    ctaPrimaryText: "Cloud Services",
+    ctaPrimaryLink: "/services/cloud-solutions",
+    ctaSecondaryText: "Contact Us",
+    ctaSecondaryLink: "/contact",
+    features: [
+      { icon: "Cloud", label: "Cloud Migration" },
+      { icon: "Server", label: "Infrastructure" },
+      { icon: "Zap", label: "Cost Optimization" },
+    ],
+  },
+  {
+    title: "Build Your Vision with",
+    subtitle: "Custom Software Development",
+    ctaPrimaryText: "Development Services",
+    ctaPrimaryLink: "/services/software-development",
+    ctaSecondaryText: "View Portfolio",
+    ctaSecondaryLink: "/portfolio",
+    features: [
+      { icon: "Code", label: "Web Apps" },
+      { icon: "Briefcase", label: "Enterprise" },
+      { icon: "Headphones", label: "Mobile" },
+    ],
+  },
+];
+
 export default function StrapiHeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [slides, setSlides] = useState<HeroSlideData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [slides, setSlides] = useState<HeroSlideData[]>(DEFAULT_SLIDES);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSlides = async () => {
       try {
         const slidesData = await getHeroSlides();
-        setSlides(slidesData);
+        if (slidesData.length > 0) {
+          setSlides(slidesData as HeroSlideData[]);
+        }
       } catch (error) {
         console.error("Error fetching hero slides:", error);
-      } finally {
-        setLoading(false);
       }
     };
     
