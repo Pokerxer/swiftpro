@@ -21,10 +21,15 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  let service = await getServiceBySlug(slug);
+  let service = SERVICES.find((s) => s.slug === slug) || null;
   
-  if (!service) {
-    service = SERVICES.find((s) => s.slug === slug) || null;
+  try {
+    const strapiService = await getServiceBySlug(slug);
+    if (strapiService) {
+      service = strapiService;
+    }
+  } catch (error) {
+    console.error("Error fetching service:", error);
   }
   
   if (!service) {
@@ -39,10 +44,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  let service = await getServiceBySlug(slug);
+  let service = SERVICES.find((s) => s.slug === slug) || null;
 
-  if (!service) {
-    service = SERVICES.find((s) => s.slug === slug) || null;
+  try {
+    const strapiService = await getServiceBySlug(slug);
+    if (strapiService) {
+      service = strapiService;
+    }
+  } catch (error) {
+    console.error("Error fetching service:", error);
   }
 
   if (!service) {

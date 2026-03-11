@@ -15,10 +15,15 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ServicesPage() {
-  let services = await getServices();
+  let services = SERVICES;
   
-  if (services.length === 0) {
-    services = SERVICES;
+  try {
+    const strapiServices = await getServices();
+    if (strapiServices.length > 0) {
+      services = strapiServices;
+    }
+  } catch (error) {
+    console.error("Error fetching services:", error);
   }
 
   return (
