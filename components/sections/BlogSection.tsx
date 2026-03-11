@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Clock, User, ArrowRight, BookOpen, Search, 
   Calendar, ChevronRight, Tag, PenTool
 } from "lucide-react";
+import { getBlogPosts } from "@/lib/api";
 import { BLOG_POSTS } from "@/lib/constants";
 
 const categories = ["All", "Digital Transformation", "Cybersecurity", "Cloud Solutions"];
 
-const blogPosts = BLOG_POSTS.map((post, index) => ({
+const blogPostsData = BLOG_POSTS.map((post, index) => ({
   ...post,
   gradient: {
     "Digital Transformation": "from-blue-500 to-cyan-500",
@@ -23,8 +24,32 @@ const blogPosts = BLOG_POSTS.map((post, index) => ({
 export default function BlogSection() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [blogPosts, setBlogPosts] = useState(blogPostsData);
 
-  const filteredPosts = blogPosts.filter(post => {
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const strapiPosts = await getBlogPosts();
+        if (strapiPosts.length > 0) {
+          const gradientMap: Record<string, string> = {
+            "Digital Transformation": "from-blue-500 to-cyan-500",
+            "Cybersecurity": "from-red-500 to-orange-500",
+            "Cloud Solutions": "from-sky-500 to-blue-500",
+          };
+          const mapped = strapiPosts.map((post: any) => ({
+            ...post,
+            gradient: gradientMap[post.category] || "from-purple-500 to-pink-500"
+          }));
+          setBlogPosts(mapped);
+        }
+      } catch (error) {
+        console.error("Error fetching blog posts:", error);
+      }
+    };
+    fetchBlogPosts();
+  }, []);
+
+  const filteredPosts = blogPosts.filter((post: any) => {
     const matchesCategory = activeCategory === "All" || post.category === activeCategory;
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());

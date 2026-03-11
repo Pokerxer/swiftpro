@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -8,69 +8,29 @@ import {
   ArrowUpRight, CheckCircle2, Zap, ShieldCheck, Lock, CloudLightning, 
   Code2, Users, Database
 } from "lucide-react";
+import { getServices } from "@/lib/api";
+import { SERVICES as fallbackServices } from "@/lib/constants";
 
-const services = [
-  {
-    id: "1",
-    slug: "it-infrastructure",
-    title: "IT Infrastructure",
-    shortDescription: "Robust and scalable IT infrastructure solutions for modern businesses. We design, implement, and maintain enterprise-grade networks.",
-    icon: Server,
-    gradient: "from-blue-500 to-cyan-500",
-    features: ["Network Design", "Server Virtualization", "Data Centers", "24/7 Monitoring"],
-    stats: ["99.9% Uptime", "500+ Networks", "100+ Data Centers"],
-  },
-  {
-    id: "2",
-    slug: "software-development",
-    title: "Software Development",
-    shortDescription: "Custom software solutions tailored to your business requirements. From web apps to enterprise systems.",
-    icon: Code2,
-    gradient: "from-purple-500 to-pink-500",
-    features: ["Web Applications", "Mobile Apps", "Enterprise Software", "API Integration"],
-    stats: ["200+ Apps", "50+ Developers", "100% Custom"],
-  },
-  {
-    id: "3",
-    slug: "cybersecurity",
-    title: "Cybersecurity",
-    shortDescription: "Comprehensive security solutions to protect your digital assets from evolving threats.",
-    icon: Lock,
-    gradient: "from-red-500 to-orange-500",
-    features: ["Penetration Testing", "Security Audits", "Incident Response", "Compliance"],
-    stats: ["500+ Secured", "100% Detection", "24/7 Monitoring"],
-  },
-  {
-    id: "4",
-    slug: "cloud-solutions",
-    title: "Cloud Solutions",
-    shortDescription: "Scalable cloud services for modern business operations. Migrate, optimize, and innovate.",
-    icon: CloudLightning,
-    gradient: "from-sky-500 to-blue-500",
-    features: ["Cloud Migration", "AWS/Azure/GCP", "Hybrid Cloud", "Cost Optimization"],
-    stats: ["99.9% Uptime", "50% Cost Save", "100+ Migrations"],
-  },
-  {
-    id: "5",
-    slug: "it-consulting",
-    title: "IT Consulting",
-    shortDescription: "Strategic IT guidance to drive business transformation and digital innovation.",
-    icon: Users,
-    gradient: "from-green-500 to-emerald-500",
-    features: ["Digital Strategy", "IT Planning", "Technology Assessment", "Process Optimization"],
-    stats: ["200+ Clients", "50+ Industries", "100% Success"],
-  },
-  {
-    id: "6",
-    slug: "managed-it-support",
-    title: "Managed IT Support",
-    shortDescription: "Reliable managed IT services to keep your business running smoothly 24/7.",
-    icon: Headphones,
-    gradient: "from-indigo-500 to-purple-500",
-    features: ["24/7 Help Desk", "Proactive Monitoring", "System Maintenance", "Remote Support"],
-    stats: ["5000+ Tickets", "15min Response", "99% Resolution"],
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Server, Code, Shield, Cloud, Briefcase, Headphones, Code2, Lock, CloudLightning, Zap, ShieldCheck, Users, Database
+};
+
+const gradientMap: Record<string, string> = {
+  Server: "from-blue-500 to-cyan-500",
+  Code: "from-purple-500 to-pink-500",
+  Shield: "from-red-500 to-orange-500",
+  Cloud: "from-sky-500 to-blue-500",
+  Briefcase: "from-green-500 to-emerald-500",
+  Headphones: "from-indigo-500 to-purple-500",
+};
+
+const servicesData = fallbackServices.map((s, index) => ({
+  ...s,
+  icon: iconMap[s.icon] || Server,
+  gradient: gradientMap[s.icon] || Object.values(gradientMap)[index % 6],
+  features: s.features?.slice(0, 4) || [],
+  stats: ["99.9% Uptime", "500+ Networks", "100+ Data Centers"],
+}));
 
 const categories = [
   { id: "all", label: "All Services" },
@@ -83,6 +43,31 @@ const categories = [
 export default function ServicesSection() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [services, setServices] = useState<any[]>(servicesData);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const strapiServices = await getServices();
+        if (strapiServices.length > 0) {
+          const mapped = strapiServices.map((s: any, index: number) => ({
+            id: s.id,
+            slug: s.slug,
+            title: s.title,
+            shortDescription: s.shortDescription,
+            icon: iconMap[s.icon] || Server,
+            gradient: gradientMap[s.icon] || Object.values(gradientMap)[index % 6],
+            features: s.features?.slice(0, 4) || [],
+            stats: ["99.9% Uptime", "500+ Networks", "100+ Data Centers"],
+          }));
+          setServices(mapped);
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+    fetchServices();
+  }, []);
 
   const filteredServices = activeCategory === "all" 
     ? services 
@@ -207,7 +192,7 @@ export default function ServicesSection() {
 
                       {/* Features */}
                       <div className="flex flex-wrap gap-2 mb-6">
-                        {service.features.slice(0, 3).map((feature, i) => (
+                        {service.features.slice(0, 3).map((feature: string, i: number) => (
                           <span
                             key={i}
                             className="px-3 py-1 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 text-xs font-medium"
@@ -219,7 +204,7 @@ export default function ServicesSection() {
 
                       {/* Stats */}
                       <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-slate-700">
-                        {service.stats.map((stat, i) => (
+                        {service.stats.map((stat: string, i: number) => (
                           <div key={i} className="text-center">
                             <p className="text-sm font-bold text-primary dark:text-white">{stat}</p>
                           </div>

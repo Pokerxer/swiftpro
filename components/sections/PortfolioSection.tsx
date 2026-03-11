@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, Layers, Server, Code, Lock, Eye, 
   Calendar, Building2, ArrowUpRight, Filter
 } from "lucide-react";
+import { getProjects } from "@/lib/api";
 import { PROJECTS } from "@/lib/constants";
 
 const categoryIcons = {
@@ -18,7 +19,7 @@ const categoryIcons = {
 
 const categories = ["all", "Web", "Infrastructure", "Software", "Security"] as const;
 
-const projects = PROJECTS.map(p => ({
+const projectsData = PROJECTS.map(p => ({
   ...p,
   gradient: {
     Web: "from-blue-500 to-cyan-500",
@@ -31,10 +32,35 @@ const projects = PROJECTS.map(p => ({
 export default function PortfolioSection() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [projects, setProjects] = useState(projectsData);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const strapiProjects = await getProjects();
+        if (strapiProjects.length > 0) {
+          const gradientMap: Record<string, string> = {
+            Web: "from-blue-500 to-cyan-500",
+            Infrastructure: "from-sky-500 to-blue-500",
+            Software: "from-purple-500 to-pink-500",
+            Security: "from-red-500 to-orange-500",
+          };
+          const mapped = strapiProjects.map((p: any) => ({
+            ...p,
+            gradient: gradientMap[p.category] || "from-blue-500 to-cyan-500"
+          }));
+          setProjects(mapped);
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   const filteredProjects = activeCategory === "all" 
     ? projects 
-    : projects.filter(p => p.category === activeCategory);
+    : projects.filter((p: any) => p.category === activeCategory);
 
   return (
     <section className="py-20 md:py-32 bg-white dark:bg-[#0F172A] relative overflow-hidden">

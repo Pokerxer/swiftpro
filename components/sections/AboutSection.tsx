@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -8,6 +8,7 @@ import {
   Target, Rocket, Heart, ShieldCheck, Clock, Trophy, MapPin, Phone, Mail
 } from "lucide-react";
 import { COMPANY_INFO } from "@/lib/constants";
+import { getTeamMembers, getWhyChooseUs, getStats } from "@/lib/api";
 
 const stats = [
   { value: "500+", label: "Projects Completed", icon: Trophy },
