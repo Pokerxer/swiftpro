@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 import PageHeader from "@/components/shared/PageHeader";
 import ServiceCard from "@/components/shared/ServiceCard";
+import { getServices } from "@/lib/api";
 import { SERVICES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -11,7 +12,15 @@ export const metadata: Metadata = {
   description: "Explore our comprehensive IT services including IT Infrastructure, Software Development, Cybersecurity, Cloud Solutions, IT Consulting, and Managed IT Support.",
 };
 
-export default function ServicesPage() {
+export const revalidate = 60;
+
+export default async function ServicesPage() {
+  let services = await getServices();
+  
+  if (services.length === 0) {
+    services = SERVICES;
+  }
+
   return (
     <>
       <Navbar />
@@ -26,7 +35,7 @@ export default function ServicesPage() {
         <section className="py-16 md:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {SERVICES.map((service, index) => (
+              {services.map((service, index) => (
                 <ServiceCard key={service.id} service={service} index={index} />
               ))}
             </div>

@@ -5,7 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 import PageHeader from "@/components/shared/PageHeader";
-import { SERVICES, COMPANY_INFO } from "@/lib/constants";
+import { getServiceBySlug, getServices } from "@/lib/api";
+import { COMPANY_INFO, SERVICES } from "@/lib/constants";
 import { generateWhatsAppLink } from "@/lib/utils";
 import { ArrowLeft, CheckCircle2, Server, Code, Shield, Cloud, Briefcase, Headphones } from "lucide-react";
 
@@ -20,7 +21,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const service = SERVICES.find((s) => s.slug === slug);
+  let service = await getServiceBySlug(slug);
+  
+  if (!service) {
+    service = SERVICES.find((s) => s.slug === slug) || null;
+  }
   
   if (!service) {
     return { title: "Service Not Found" };
@@ -34,7 +39,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = SERVICES.find((s) => s.slug === slug);
+  let service = await getServiceBySlug(slug);
+
+  if (!service) {
+    service = SERVICES.find((s) => s.slug === slug) || null;
+  }
 
   if (!service) {
     notFound();
@@ -140,7 +149,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                       Related Services
                     </h3>
                     <ul className="space-y-3">
-                      {SERVICES.filter((s) => s.id !== service.id)
+                      {SERVICES.filter((s) => s.id !== service?.id)
                         .slice(0, 3)
                         .map((s) => (
                           <li key={s.id}>
