@@ -69,6 +69,52 @@ interface StrapiStat {
   label: string;
 }
 
+// New interfaces for additional content types
+interface StrapiCompanyInfo {
+  id: number;
+  documentId: string;
+  name: string;
+  tagline: string;
+  description: string;
+  email: string;
+  phone: string;
+  phoneRaw: string;
+  whatsappMessage: string;
+  address: string;
+  rcNumber: string;
+  foundedYear: number;
+}
+
+interface StrapiHeroSlide {
+  id: number;
+  documentId: string;
+  title: string;
+  subtitle: string;
+  ctaPrimaryText?: string;
+  ctaPrimaryLink?: string;
+  ctaSecondaryText?: string;
+  ctaSecondaryLink?: string;
+  backgroundImage?: { url: string };
+  order?: number;
+}
+
+interface StrapiFAQ {
+  id: number;
+  documentId: string;
+  question: string;
+  answer: string;
+  category: string;
+  order?: number;
+}
+
+interface StrapiWhyChooseUs {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
 function transformService(service: StrapiService): Service {
   return {
     id: String(service.id),
@@ -139,6 +185,53 @@ function transformStat(stat: StrapiStat): Stat {
     value: stat.value,
     suffix: stat.suffix,
     label: stat.label,
+  };
+}
+
+// New transform functions
+function transformCompanyInfo(info: StrapiCompanyInfo): any {
+  return {
+    name: info.name,
+    tagline: info.tagline,
+    description: info.description,
+    email: info.email,
+    phone: info.phone,
+    phoneRaw: info.phoneRaw,
+    whatsappMessage: info.whatsappMessage,
+    address: info.address,
+    rcNumber: info.rcNumber,
+    foundedYear: info.foundedYear,
+  };
+}
+
+function transformHeroSlide(slide: StrapiHeroSlide): any {
+  return {
+    title: slide.title,
+    subtitle: slide.subtitle,
+    ctaPrimaryText: slide.ctaPrimaryText,
+    ctaPrimaryLink: slide.ctaPrimaryLink,
+    ctaSecondaryText: slide.ctaSecondaryText,
+    ctaSecondaryLink: slide.ctaSecondaryLink,
+    backgroundImage: getStrapiMedia(slide.backgroundImage?.url || null),
+    order: slide.order,
+  };
+}
+
+function transformFAQ(faq: StrapiFAQ): any {
+  return {
+    id: String(faq.id),
+    question: faq.question,
+    answer: faq.answer,
+    category: faq.category,
+    order: faq.order,
+  };
+}
+
+function transformWhyChooseUs(item: StrapiWhyChooseUs): any {
+  return {
+    title: item.title,
+    description: item.description,
+    icon: item.icon,
   };
 }
 
@@ -257,6 +350,57 @@ export async function getStats(): Promise<Stat[]> {
     return stats.map(transformStat);
   } catch (error) {
     console.error("Error fetching stats:", error);
+    return [];
+  }
+}
+
+// New API functions
+export async function getCompanyInfo(): Promise<any> {
+  try {
+    const info = await fetchAPI<StrapiCompanyInfo[]>("/company-infos", {
+      sort: ["id:asc"],
+    });
+    if (info.length === 0) return null;
+    return transformCompanyInfo(info[0]);
+  } catch (error) {
+    console.error("Error fetching company info:", error);
+    return null;
+  }
+}
+
+export async function getHeroSlides(): Promise<any[]> {
+  try {
+    const slides = await fetchAPI<StrapiHeroSlide[]>("/hero-slides", {
+      populate: "backgroundImage",
+      sort: ["order:asc"],
+    });
+    return slides.map(transformHeroSlide);
+  } catch (error) {
+    console.error("Error fetching hero slides:", error);
+    return [];
+  }
+}
+
+export async function getFAQs(): Promise<any[]> {
+  try {
+    const faqs = await fetchAPI<StrapiFAQ[]>("/faqs", {
+      sort: ["order:asc"],
+    });
+    return faqs.map(transformFAQ);
+  } catch (error) {
+    console.error("Error fetching FAQs:", error);
+    return [];
+  }
+}
+
+export async function getWhyChooseUs(): Promise<any[]> {
+  try {
+    const items = await fetchAPI<StrapiWhyChooseUs[]>("/why-choose-uss", {
+      sort: ["id:asc"],
+    });
+    return items.map(transformWhyChooseUs);
+  } catch (error) {
+    console.error("Error fetching why choose us:", error);
     return [];
   }
 }

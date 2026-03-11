@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
-import HeroSection from "@/components/sections/HeroSection";
+import StrapiHeroSection from "@/components/sections/StrapiHeroSection";
 import StatsSection from "@/components/sections/StatsSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import AboutSection from "@/components/sections/AboutSection";
@@ -29,7 +29,7 @@ export default function HomePage() {
     <>
       <Navbar />
       <main>
-        <HeroSection />
+        <StrapiHeroSection />
         <StatsSection />
         <ServicesSection />
         <AboutSection />

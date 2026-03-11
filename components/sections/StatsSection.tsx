@@ -1,7 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { STATS } from "@/lib/constants";
+import { getStats } from "@/lib/api";
+import { STATS as FALLBACK_STATS } from "@/lib/constants";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -25,6 +27,22 @@ const achievements = [
 export default function StatsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const [stats, setStats] = useState(FALLBACK_STATS);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const strapiStats = await getStats();
+        if (strapiStats.length > 0) {
+          setStats(strapiStats);
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    };
+    
+    fetchStats();
+  }, []);
 
   return (
     <>
@@ -86,7 +104,7 @@ export default function StatsSection() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {STATS.map((stat, index) => (
+            {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 30 }}

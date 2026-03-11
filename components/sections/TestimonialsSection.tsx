@@ -7,8 +7,9 @@ import {
   Building2, MessageCircle, ThumbsUp, Award
 } from "lucide-react";
 import { Testimonial } from "@/types";
+import { getTestimonials } from "@/lib/api";
 
-const testimonials: Testimonial[] = [
+const fallbackTestimonials: Testimonial[] = [
   {
     id: "1",
     name: "Dr. Adedamola Okonkwo",
@@ -60,7 +61,23 @@ const stats = [
 export default function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(fallbackTestimonials);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const strapiTestimonials = await getTestimonials();
+        if (strapiTestimonials.length > 0) {
+          setTestimonials(strapiTestimonials);
+        }
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
+    };
+    
+    fetchTestimonials();
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
