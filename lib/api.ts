@@ -3,148 +3,142 @@ import { Service, Project, BlogPost, TeamMember, Testimonial, Stat } from "@/typ
 
 interface StrapiService {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-    shortDescription: string;
-    fullDescription: string;
-    icon: string;
-    features: string[];
-    processSteps: { title: string; description: string }[];
-  };
+  documentId: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  fullDescription: string;
+  icon: string;
+  features: string[];
+  processSteps: { title: string; description: string }[];
 }
 
 interface StrapiProject {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-    category: "Web" | "Infrastructure" | "Software" | "Security";
-    description: string;
-    fullDescription: string;
-    image: { data: { attributes: { url: string } } };
-    tags: string[];
-    client?: string;
-    year?: string;
-  };
+  documentId: string;
+  title: string;
+  slug: string;
+  category: "Web" | "Infrastructure" | "Software" | "Security";
+  description: string;
+  fullDescription: string;
+  image?: { url: string };
+  tags: string[];
+  client?: string;
+  year?: string;
 }
 
 interface StrapiBlogPost {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-    excerpt: string;
-    content: string;
-    image: { data: { attributes: { url: string } } };
-    author: string;
-    date: string;
-    category: string;
-    readTime: string;
-  };
+  documentId: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  image?: { url: string };
+  author: string;
+  date: string;
+  category: string;
+  readTime: string;
 }
 
 interface StrapiTeamMember {
   id: number;
-  attributes: {
-    name: string;
-    role: string;
-    image: { data: { attributes: { url: string } } };
-    linkedin?: string;
-  };
+  documentId: string;
+  name: string;
+  role: string;
+  image?: { url: string };
+  linkedin?: string;
 }
 
 interface StrapiTestimonial {
   id: number;
-  attributes: {
-    name: string;
-    company: string;
-    role: string;
-    quote: string;
-    rating: number;
-    image: { data: { attributes: { url: string } } };
-  };
+  documentId: string;
+  name: string;
+  company: string;
+  role: string;
+  quote: string;
+  rating: number;
+  image?: { url: string };
 }
 
 interface StrapiStat {
   id: number;
-  attributes: {
-    value: number;
-    suffix: string;
-    label: string;
-  };
+  documentId: string;
+  value: number;
+  suffix: string;
+  label: string;
 }
 
 function transformService(service: StrapiService): Service {
   return {
     id: String(service.id),
-    slug: service.attributes.slug,
-    title: service.attributes.title,
-    shortDescription: service.attributes.shortDescription,
-    fullDescription: service.attributes.fullDescription,
-    icon: service.attributes.icon,
-    features: service.attributes.features || [],
-    processSteps: service.attributes.processSteps || [],
+    slug: service.slug,
+    title: service.title,
+    shortDescription: service.shortDescription,
+    fullDescription: service.fullDescription,
+    icon: service.icon,
+    features: service.features || [],
+    processSteps: service.processSteps || [],
   };
 }
 
 function transformProject(project: StrapiProject): Project {
   return {
     id: String(project.id),
-    slug: project.attributes.slug,
-    title: project.attributes.title,
-    category: project.attributes.category,
-    description: project.attributes.description,
-    fullDescription: project.attributes.fullDescription,
-    image: getStrapiMedia(project.attributes.image?.data?.attributes?.url) || "",
-    tags: project.attributes.tags || [],
-    client: project.attributes.client,
-    year: project.attributes.year,
+    slug: project.slug,
+    title: project.title,
+    category: project.category,
+    description: project.description,
+    fullDescription: project.fullDescription,
+    image: getStrapiMedia(project.image?.url || null) || "",
+    tags: project.tags || [],
+    client: project.client,
+    year: project.year,
   };
 }
 
 function transformBlogPost(post: StrapiBlogPost): BlogPost {
   return {
     id: String(post.id),
-    slug: post.attributes.slug,
-    title: post.attributes.title,
-    excerpt: post.attributes.excerpt,
-    content: post.attributes.content,
-    image: getStrapiMedia(post.attributes.image?.data?.attributes?.url) || "",
-    author: post.attributes.author,
-    date: post.attributes.date,
-    category: post.attributes.category,
-    readTime: post.attributes.readTime,
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    content: post.content,
+    image: getStrapiMedia(post.image?.url || null) || "",
+    author: post.author,
+    date: post.date,
+    category: post.category,
+    readTime: post.readTime,
   };
 }
 
 function transformTeamMember(member: StrapiTeamMember): TeamMember {
   return {
     id: String(member.id),
-    name: member.attributes.name,
-    role: member.attributes.role,
-    image: getStrapiMedia(member.attributes.image?.data?.attributes?.url) || "",
-    linkedin: member.attributes.linkedin,
+    name: member.name,
+    role: member.role,
+    image: getStrapiMedia(member.image?.url || null) || "",
+    linkedin: member.linkedin,
   };
 }
 
 function transformTestimonial(testimonial: StrapiTestimonial): Testimonial {
   return {
     id: String(testimonial.id),
-    name: testimonial.attributes.name,
-    company: testimonial.attributes.company,
-    role: testimonial.attributes.role,
-    quote: testimonial.attributes.quote,
-    rating: testimonial.attributes.rating,
-    image: getStrapiMedia(testimonial.attributes.image?.data?.attributes?.url) || undefined,
+    name: testimonial.name,
+    company: testimonial.company,
+    role: testimonial.role,
+    quote: testimonial.quote,
+    rating: testimonial.rating,
+    image: getStrapiMedia(testimonial.image?.url || null) || undefined,
   };
 }
 
 function transformStat(stat: StrapiStat): Stat {
   return {
-    value: stat.attributes.value,
-    suffix: stat.attributes.suffix,
-    label: stat.attributes.label,
+    value: stat.value,
+    suffix: stat.suffix,
+    label: stat.label,
   };
 }
 
