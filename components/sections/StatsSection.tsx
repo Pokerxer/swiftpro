@@ -127,7 +127,7 @@ export default function StatsSection() {
                     
                     {/* Counter */}
                     <div className="text-4xl md:text-5xl font-bold text-white mb-2">
-                      {isInView && <AnimatedCounter stat={stat} index={index} />}
+                      {stat.value}{stat.suffix}
                     </div>
                     <p className="text-white/70 font-medium">{stat.label}</p>
                   </div>

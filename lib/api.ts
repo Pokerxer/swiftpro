@@ -372,9 +372,8 @@ export async function getHeroSlides(): Promise<any[]> {
   try {
     const slides = await fetchAPI<StrapiHeroSlide[]>("/hero-slides", {
       populate: "backgroundImage",
-      sort: ["order:asc"],
     });
-    return slides.map(transformHeroSlide);
+    return slides.map(transformHeroSlide).filter(slide => slide.order !== null && slide.order !== undefined);
   } catch (error) {
     console.error("Error fetching hero slides:", error);
     return [];

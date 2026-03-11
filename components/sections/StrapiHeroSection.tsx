@@ -141,7 +141,7 @@ export default function StrapiHeroSection() {
                   transition={{ delay: 0.2 }}
                   className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm"
                 >
-                  Leading ICT Company
+                  {slide.subtitle || "Leading ICT Company in Nigeria"}
                 </motion.span>
               </div>
 
@@ -151,10 +151,12 @@ export default function StrapiHeroSection() {
                 transition={{ delay: 0.3 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-6">
                 {slide.title}
-                <br />
-                <span className="text-secondary">
-                  Cutting-Edge ICT Solutions
-                </span>
+                {slide.ctaSecondaryLink && (
+                  <>
+                    <br />
+                    <span className="text-secondary">ICT Solutions</span>
+                  </>
+                )}
               </motion.h1>
 
               <motion.p
@@ -163,7 +165,7 @@ export default function StrapiHeroSection() {
                 transition={{ delay: 0.4 }}
                 className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8"
               >
-                Swift Professional Solutions Limited delivers world-class IT services across Nigeria — from Lagos to Abuja and beyond. Transform your business with innovative technology solutions.
+                {slide.subtitle}
               </motion.p>
 
               <motion.div
@@ -172,19 +174,38 @@ export default function StrapiHeroSection() {
                 transition={{ delay: 0.5 }}
                 className="flex flex-wrap gap-4 justify-center mb-8"
               >
-                <Link
-                  href="contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-primary font-semibold hover:bg-gray-100 transition-colors"
-                >
-                  Get a Free Consultation
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  href="services"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-white text-white font-semibold hover:bg-white hover:text-primary transition-colors"
-                >
-                  View Our Services
-                </Link>
+                {slide.ctaPrimaryText ? (
+                  <Link
+                    href={slide.ctaPrimaryLink || "/contact"}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-primary font-semibold hover:bg-gray-100 transition-colors"
+                  >
+                    {slide.ctaPrimaryText}
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                ) : (
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-primary font-semibold hover:bg-gray-100 transition-colors"
+                  >
+                    Get a Free Consultation
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                )}
+                {slide.ctaSecondaryText ? (
+                  <Link
+                    href={slide.ctaSecondaryLink || "/services"}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-white text-white font-semibold hover:bg-white hover:text-primary transition-colors"
+                  >
+                    {slide.ctaSecondaryText}
+                  </Link>
+                ) : (
+                  <Link
+                    href="/services"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-white text-white font-semibold hover:bg-white hover:text-primary transition-colors"
+                  >
+                    View Our Services
+                  </Link>
+                )}
               </motion.div>
             </div>
           </div>
