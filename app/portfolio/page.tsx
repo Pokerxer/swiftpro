@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Briefcase, Code, Shield, Cloud, Server } from "lucide-react";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import PortfolioContent from "./PortfolioContent";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 
@@ -20,8 +22,10 @@ const categories = [
 export default function PortfolioPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+      <Navbar />
+      <main>
+        {/* Hero Section */}
+        <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent" />
         <div className="absolute inset-0">
           <div className="absolute top-20 -left-20 w-[400px] h-[400px] bg-secondary/20 rounded-full blur-3xl" />
@@ -87,7 +91,8 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
-
+      </main>
+      <Footer />
       <WhatsAppButton />
     </>
   );
