@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, X, ArrowRight, Calendar, User, Clock, BookOpen,
@@ -243,7 +244,7 @@ export default function BlogPage() {
               >
                 {filteredPosts.map((post, index) => {
                   const gradient = categoryColors[post.category] || "from-purple-500 to-pink-500";
-                  
+                   
                   return (
                     <motion.div
                       key={post.id}
@@ -253,17 +254,15 @@ export default function BlogPage() {
                     >
                       <Link href={`/blog/${post.slug}`}>
                         <div className="group h-full rounded-2xl overflow-hidden bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 hover:border-transparent transition-all duration-300 hover:shadow-xl">
-                          <div className="relative aspect-[3/2] overflow-hidden">
-                            <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-90`} />
-                            <div className="absolute inset-0 opacity-20" style={{
-                              backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-                              backgroundSize: '20px 20px',
-                            }} />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                <BookOpen className="w-7 h-7 text-white" />
-                              </div>
-                            </div>
+                          <div className="relative aspect-[3/2] overflow-hidden bg-gray-200 dark:bg-slate-700">
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-500"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                             <div className="absolute top-4 left-4">
                               <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-medium">
                                 {post.category}

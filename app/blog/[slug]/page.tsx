@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, User, Clock, Share2, MessageCircle } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
@@ -56,7 +57,16 @@ export default async function BlogPostPage({ params }: Props) {
       <main>
         {/* Hero Section */}
         <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent" />
+          <div className="absolute inset-0">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-accent" />
+          </div>
           <div className="absolute inset-0">
             <div className="absolute top-20 -left-20 w-[400px] h-[400px] bg-secondary/20 rounded-full blur-3xl" />
             <div className="absolute bottom-20 -right-20 w-[300px] h-[300px] bg-accent/20 rounded-full blur-3xl" />
