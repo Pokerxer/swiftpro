@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Project } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +12,27 @@ interface PortfolioCardProps {
   index?: number;
 }
 
+const placeholderImages: Record<string, string> = {
+  "Enterprise Resource Planning System": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+  "Fintech Mobile Application": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop",
+  "Hospital Information System": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
+  "E-Commerce Platform": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+  "Network Security Infrastructure": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
+  "Cloud Migration": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop",
+};
+
+const categoryImages: Record<string, string> = {
+  "Web": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600&fit=crop",
+  "Software": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+  "Security": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
+  "Infrastructure": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop",
+};
+
 export default function PortfolioCard({ project, index = 0 }: PortfolioCardProps) {
+  const imageUrl = project.image && project.image !== "/images/projects/placeholder.jpg" 
+    ? project.image 
+    : placeholderImages[project.title] || categoryImages[project.category] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -21,7 +42,14 @@ export default function PortfolioCard({ project, index = 0 }: PortfolioCardProps
     >
       <div className="group h-full rounded-2xl overflow-hidden bg-white dark:bg-[#262626] border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300">
         <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <Image
+            src={imageUrl}
+            alt={project.title}
+            fill
+            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-medium">
               {project.category}
@@ -39,7 +67,7 @@ export default function PortfolioCard({ project, index = 0 }: PortfolioCardProps
           </div>
         </div>
         <div className="p-5">
-          <h3 className="text-lg font-heading font-semibold text-primary dark:text-white mb-2 group-hover:text-primary transition-colors">
+          <h3 className="text-lg font-heading font-semibold text-primary dark:text-white mb-2 group-hover:text-primary transition-colors line-clamp-1">
             {project.title}
           </h3>
           <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
