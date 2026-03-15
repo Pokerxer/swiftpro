@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,10 +11,12 @@ import {
 } from "lucide-react";
 import { toggleMobileMenu } from "@/store/slices/uiSlice";
 import { RootState } from "@/store";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, SERVICES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { useTheme } from "@/components/providers/ThemeProvider";
+import SearchModal from "@/components/shared/SearchModal";
+import { Service } from "@/types";
 
 function useMounted() {
   const [mounted, setMounted] = useState(false);
@@ -22,14 +24,9 @@ function useMounted() {
   return mounted;
 }
 
-const serviceLinks = [
-  { href: "/services/it-infrastructure", label: "IT Infrastructure", icon: Server },
-  { href: "/services/software-development", label: "Software Development", icon: Code },
-  { href: "/services/cybersecurity", label: "Cybersecurity", icon: Shield },
-  { href: "/services/cloud-solutions", label: "Cloud Solutions", icon: Cloud },
-  { href: "/services/it-consulting", label: "IT Consulting", icon: Briefcase },
-  { href: "/services/managed-it-support", label: "Managed IT Support", icon: Headphones },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Server, Code, Shield, Cloud, Briefcase, Headphones
+};
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -40,6 +37,19 @@ export default function Navbar() {
   const mounted = useMounted();
   const [servicesOpen, setServicesOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Keyboard shortcut for search (Cmd/Ctrl + K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -122,26 +132,79 @@ export default function Navbar() {
             {/* Desktop Navigation */}
             <nav className="hidden xl:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
-                <div key={link.href} className="relative">
+                <div key={link.href} className="relative group">
                   {link.href === "/services" ? (
-                    <button
-                      onMouseEnter={() => setServicesOpen(true)}
-                      onMouseLeave={() => setServicesOpen(false)}
-                      className={cn(
-                        "flex items-center gap-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
-                        pathname.startsWith("/services")
-                          ? "text-primary dark:text-white"
-                          : "text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
-                      )}
-                    >
-                      {link.label}
-                      <motion.div
-                        animate={{ rotate: servicesOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
+                    <>
+                      <button
+                        onMouseEnter={() => setServicesOpen(true)}
+                        onMouseLeave={() => setServicesOpen(false)}
+                        className={cn(
+                          "flex items-center gap-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                          pathname.startsWith("/services")
+                            ? "text-primary dark:text-white"
+                            : "text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
+                        )}
                       >
-                        <ChevronDown className="w-4 h-4" />
-                      </motion.div>
-                    </button>
+                        {link.label}
+                        <motion.div
+                          animate={{ rotate: servicesOpen ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ChevronDown className="w-4 h-4" />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {servicesOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                            transition={{ duration: 0.15, ease: "easeOut" }}
+                            onMouseEnter={() => setServicesOpen(true)}
+                            onMouseLeave={() => setServicesOpen(false)}
+                            className="absolute top-full left-0 mt-3 w-80 p-2 bg-white dark:bg-[#1E293B] rounded-2xl shadow-2xl shadow-primary/10 border border-gray-100 dark:border-slate-700 z-50"
+                          >
+                            <div className="mb-2 px-3 py-2 flex items-center justify-between">
+                              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Our Services</p>
+                              <Link href="/services" className="text-xs text-primary hover:text-primary/80 font-medium">
+                                View All →
+                              </Link>
+                            </div>
+                            {SERVICES.map((service: Service, index: number) => {
+                              const Icon = iconMap[service.icon] || Server;
+                              return (
+                                <motion.div
+                                  key={service.slug}
+                                  initial={{ opacity: 0, x: -8 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: index * 0.03 }}
+                                >
+                                  <Link
+                                    href={`/services/${service.slug}`}
+                                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-primary transition-all group"
+                                  >
+                                    <div className="w-9 h-9 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                      <Icon className="w-4 h-4 text-primary dark:text-primary-foreground" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <span className="font-medium block truncate">{service.title}</span>
+                                      <span className="text-xs text-gray-400 dark:text-gray-500 truncate block">{service.shortDescription}</span>
+                                    </div>
+                                    <motion.span
+                                      initial={{ opacity: 0, x: -4 }}
+                                      whileHover={{ opacity: 1, x: 0 }}
+                                      className="text-primary"
+                                    >
+                                      →
+                                    </motion.span>
+                                  </Link>
+                                </motion.div>
+                              );
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
                   ) : (
                     <NavLink href={link.href} pathname={pathname}>
                       {link.label}
@@ -149,83 +212,24 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
-
-              {/* Services Dropdown */}
-              <AnimatePresence>
-                {servicesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    onMouseEnter={() => setServicesOpen(true)}
-                    onMouseLeave={() => setServicesOpen(false)}
-                    className="absolute top-full left-0 mt-3 w-72 p-2 bg-white dark:bg-[#1E293B] rounded-2xl shadow-2xl shadow-primary/10 border border-gray-100 dark:border-slate-700"
-                  >
-                    <div className="mb-2 px-3 py-2">
-                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Our Services</p>
-                    </div>
-                    {serviceLinks.map((service, index) => (
-                      <motion.div
-                        key={service.href}
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.03 }}
-                      >
-                        <Link
-                          href={service.href}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-primary transition-all group"
-                        >
-                          <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                            <service.icon className="w-4 h-4 text-gray-500 group-hover:text-primary transition-colors" />
-                          </div>
-                          <span className="font-medium">{service.label}</span>
-                          <motion.span
-                            initial={{ opacity: 0, x: -4 }}
-                            whileHover={{ opacity: 1, x: 0 }}
-                            className="ml-auto text-primary"
-                          >
-                            →
-                          </motion.span>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </nav>
 
             {/* Right Section */}
             <div className="flex items-center gap-2">
               {/* Search */}
-              <AnimatePresence>
-                {searchOpen ? (
-                  <motion.div
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: 200, opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      autoFocus
-                      onBlur={() => setSearchOpen(false)}
-                      className="w-full px-3 py-2 text-sm bg-gray-100 dark:bg-slate-800 rounded-lg border-0 focus:ring-2 focus:ring-primary/20"
-                    />
-                  </motion.div>
-                ) : (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setSearchOpen(true)}
-                    className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
-                    aria-label="Search"
-                  >
-                    <Search className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                  </motion.button>
-                )}
-              </AnimatePresence>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSearchOpen(true)}
+                className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
+                aria-label="Search"
+              >
+                <Search className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                <span className="text-sm text-gray-400 hidden lg:block">Search...</span>
+                <kbd className="hidden lg:inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-gray-200 dark:bg-slate-700 text-xs text-gray-400 font-mono">
+                  ⌘K
+                </kbd>
+              </motion.button>
 
               {/* Notifications */}
               <motion.button
@@ -309,6 +313,9 @@ export default function Navbar() {
           />
         )}
       </AnimatePresence>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }
@@ -358,6 +365,10 @@ function MobileMenu({
   onToggleTheme: () => void;
 }) {
   const [servicesExpanded, setServicesExpanded] = useState(false);
+
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    Server, Code, Shield, Cloud, Briefcase, Headphones
+  };
 
   return (
     <motion.div
@@ -455,17 +466,20 @@ function MobileMenu({
                           className="overflow-hidden"
                         >
                           <div className="pl-2 py-2 space-y-1">
-                            {serviceLinks.map((service) => (
-                              <Link
-                                key={service.href}
-                                href={service.href}
-                                onClick={onClose}
-                                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-primary transition-colors"
-                              >
-                                <service.icon className="w-4 h-4" />
-                                {service.label}
-                              </Link>
-                            ))}
+                            {SERVICES.map((service) => {
+                              const Icon = iconMap[service.icon] || Server;
+                              return (
+                                <Link
+                                  key={service.slug}
+                                  href={`/services/${service.slug}`}
+                                  onClick={onClose}
+                                  className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-primary transition-colors"
+                                >
+                                  <Icon className="w-4 h-4" />
+                                  {service.title}
+                                </Link>
+                              );
+                            })}
                           </div>
                         </motion.div>
                       )}

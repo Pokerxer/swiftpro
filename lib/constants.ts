@@ -2,15 +2,15 @@ import { Service, Project, Testimonial, BlogPost, TeamMember, NavLink, Stat } fr
 
 export const COMPANY_INFO = {
   name: "Swift Professional Solutions Limited",
-  tagline: "Driving Digital Transformation Across Nigeria",
-  description: "Swift Professional Solutions Limited delivers world-class IT services across Nigeria — from Lagos to Abuja and beyond.",
+  tagline: "Your Partner in Digital Excellence",
+  description: "Swift Professional Solutions Limited is a newly established ICT company in Abuja, Nigeria, dedicated to delivering innovative and reliable technology solutions to help businesses thrive in the digital age.",
   email: "info@swiftpro.com.ng",
   phone: "+234 800 SWIFT PRO",
   phoneRaw: "23480079438776",
   whatsappMessage: "Hello Swift Professional Solutions, I'd like to enquire about your services.",
-  address: "Victoria Island, Lagos, Nigeria",
-  rcNumber: "RC-1234567",
-  foundedYear: 2014,
+  address: "Central Business District, Abuja, Nigeria",
+  rcNumber: "RC-2026001",
+  foundedYear: 2026,
 };
 
 export const NAV_LINKS: NavLink[] = [
@@ -187,7 +187,7 @@ export const PROJECTS: Project[] = [
     slug: "hospital-information-system",
     title: "Hospital Information System",
     category: "Software",
-    description: "Comprehensive HIS for a multi-specialty hospital in Lagos.",
+    description: "Comprehensive HIS for a multi-specialty hospital in Abuja.",
     fullDescription: "We developed a complete hospital management system covering patient records, appointments, billing, pharmacy, and laboratory management. The system improved operational efficiency by 40%.",
     image: "/images/projects/healthcare.jpg",
     tags: ["Angular", "Java", "MySQL", "HL7"],
@@ -346,10 +346,10 @@ export const TEAM: TeamMember[] = [
 ];
 
 export const STATS: Stat[] = [
-  { value: 200, suffix: "+", label: "Clients" },
-  { value: 500, suffix: "+", label: "Projects" },
-  { value: 10, suffix: "+", label: "Years Experience" },
-  { value: 98, suffix: "%", label: "Client Satisfaction" },
+  { value: 5, suffix: "+", label: "Clients" },
+  { value: 8, suffix: "+", label: "Projects" },
+  { value: 1, suffix: "+", label: "Years Experience" },
+  { value: 100, suffix: "%", label: "Client Satisfaction" },
 ];
 
 export const WHY_CHOOSE_US = [
@@ -359,8 +359,8 @@ export const WHY_CHOOSE_US = [
     icon: "MapPin",
   },
   {
-    title: "Proven Track Record",
-    description: "Over 500 successful projects delivered across various industries.",
+    title: "Fresh Approach",
+    description: "Modern solutions leveraging the latest technologies and best practices.",
     icon: "Award",
   },
   {

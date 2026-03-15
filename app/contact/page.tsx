@@ -1,20 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { 
   MapPin, Phone, Mail, Clock, Send, CheckCircle2, Loader2,
   MessageCircle, Globe, ArrowRight, ChevronDown, ChevronUp,
-  Search, HelpCircle, X
+  Search, HelpCircle, X, Server, Code, Shield, Cloud, Briefcase, Headphones
 } from "lucide-react";
 import { contactFormSchema, ContactFormValues } from "@/lib/validations";
-import { COMPANY_INFO, SERVICE_OPTIONS } from "@/lib/constants";
+import { COMPANY_INFO, SERVICE_OPTIONS, SERVICES } from "@/lib/constants";
 import { generateWhatsAppLink } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Server, Code, Shield, Cloud, Briefcase, Headphones
+};
 
 const faqCategories = ["All", "Services", "Consultation", "Support", "Industries"];
 const faqs = [
@@ -85,6 +89,8 @@ export default function ContactPage() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<ContactFormValues>({
@@ -329,24 +335,16 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Service Interest *
                     </label>
-                    <select
-                      {...register("service")}
-                      id="service"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                    >
-                      <option value="">Select a service</option>
-                      {SERVICE_OPTIONS.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.service && (
-                      <p className="mt-1 text-sm text-red-500">{errors.service.message}</p>
-                    )}
+                    <ServiceDropdown
+                      services={SERVICES}
+                      value={watch("service")}
+                      onChange={(value) => setValue("service", value, { shouldValidate: true })}
+                      error={errors.service?.message}
+                      iconMap={iconMap}
+                    />
                   </div>
                 </div>
 
@@ -437,7 +435,7 @@ export default function ContactPage() {
                 </h3>
                 <div className="aspect-video rounded-2xl bg-gray-100 dark:bg-slate-700 overflow-hidden mb-4">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.647814044066!2d3.379185674839495!3d6.42841499354485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae2aeb4df%3A0x4c477bb1cd8c5a2c!2sVictoria%20Island%2C%20Lagos!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3939.886527379032!2d7.495697374853065!3d9.076607991092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0d26a7b8c8c3%3A0x5c4a5c5a5a5a5a5a!2sCentral%20Business%20District%2C%20Abuja!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -449,7 +447,7 @@ export default function ContactPage() {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                   <Globe className="w-4 h-4" />
-                  <span>Lagos, Nigeria</span>
+                  <span>Abuja, Nigeria</span>
                 </div>
               </motion.div>
 
@@ -659,5 +657,124 @@ export default function ContactPage() {
       <Footer />
       <WhatsAppButton />
     </>
+  );
+}
+
+function ServiceDropdown({
+  services,
+  value,
+  onChange,
+  error,
+  iconMap
+}: {
+  services: typeof SERVICES;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+  iconMap: Record<string, React.ComponentType<{ className?: string }>>;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const selectedService = services.find(s => s.slug === value);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredServices = services.filter(service =>
+    service.title.toLowerCase().includes(search.toLowerCase()) ||
+    service.shortDescription.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full px-4 py-3 rounded-xl border bg-white dark:bg-[#1C1C1E] text-left focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors flex items-center justify-between ${
+          error ? "border-red-500" : "border-gray-200 dark:border-gray-700"
+        }`}
+      >
+        {selectedService ? (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              {(() => {
+                const Icon = iconMap[selectedService.icon] || Server;
+                return <Icon className="w-4 h-4 text-primary" />;
+              })()}
+            </div>
+            <span className="text-gray-900 dark:text-white">{selectedService.title}</span>
+          </div>
+        ) : (
+          <span className="text-gray-400">Select a service</span>
+        )}
+        <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute z-50 w-full mt-2 bg-white dark:bg-[#1E293B] rounded-xl shadow-xl border border-gray-100 dark:border-slate-700 overflow-hidden"
+          >
+            <div className="p-2 border-b border-gray-100 dark:border-slate-700">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search services..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+                />
+              </div>
+            </div>
+            <div className="max-h-60 overflow-y-auto">
+              {filteredServices.map((service) => {
+                const Icon = iconMap[service.icon] || Server;
+                return (
+                  <button
+                    key={service.slug}
+                    type="button"
+                    onClick={() => {
+                      onChange(service.slug);
+                      setIsOpen(false);
+                      setSearch("");
+                    }}
+                    className={`w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors ${
+                      value === service.slug ? "bg-primary/5" : ""
+                    }`}
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{service.title}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{service.shortDescription}</p>
+                    </div>
+                    {value === service.slug && (
+                      <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {error && (
+        <p className="mt-1 text-sm text-red-500">{error}</p>
+      )}
+    </div>
   );
 }

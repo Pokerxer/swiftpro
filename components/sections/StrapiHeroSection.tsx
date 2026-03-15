@@ -32,7 +32,7 @@ interface HeroSlideData {
 const DEFAULT_SLIDES: HeroSlideData[] = [
   {
     title: "Empowering Businesses with",
-    subtitle: "Leading ICT Company in Nigeria",
+    subtitle: "Innovative ICT Solutions in Nigeria",
     ctaPrimaryText: "Get a Free Consultation",
     ctaPrimaryLink: "/contact",
     ctaSecondaryText: "View Our Services",
@@ -43,9 +43,9 @@ const DEFAULT_SLIDES: HeroSlideData[] = [
       { icon: "Cloud", label: "Cloud Solutions" },
     ],
     stats: [
-      { value: "200+", label: "Clients" },
-      { value: "500+", label: "Projects" },
-      { value: "98%", label: "Success Rate" },
+      { value: "5+", label: "Clients" },
+      { value: "8+", label: "Projects" },
+      { value: "100%", label: "Satisfaction" },
     ],
   },
   {

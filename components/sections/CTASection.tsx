@@ -100,7 +100,7 @@ export default function CTASection() {
             {[
               { icon: Phone, label: "Call Us", value: COMPANY_INFO.phone },
               { icon: Clock, label: "Business Hours", value: "Mon - Fri: 8AM - 6PM" },
-              { icon: MapPin, label: "Location", value: "Victoria Island, Lagos" },
+              { icon: MapPin, label: "Location", value: "Central Business District, Abuja" },
             ].map((item, index) => (
               <div
                 key={item.label}

@@ -140,7 +140,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-none pl-0 text-gray-600 dark:text-gray-300 mb-6 space-y-2">
                 <li><strong>Email:</strong> info@swiftpro.com.ng</li>
                 <li><strong>Phone:</strong> +234 800 SWIFT PRO</li>
-                <li><strong>Address:</strong> Victoria Island, Lagos, Nigeria</li>
+                <li><strong>Address:</strong> Central Business District, Abuja, Nigeria</li>
               </ul>
             </div>
           </div>

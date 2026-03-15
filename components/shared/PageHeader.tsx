@@ -24,30 +24,34 @@ export default function PageHeader({
   className,
 }: PageHeaderProps) {
   return (
-    <div className={cn("pt-32 pb-12 md:pt-40 md:pb-16 bg-gray-50 dark:bg-[#1C1C1E]", className)}>
+    <div className={cn("pt-32 pb-12 md:pt-40 md:pb-16 bg-gradient-to-br from-gray-50 to-white dark:from-[#0F172A] dark:to-[#1E293B]", className)}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {breadcrumbs && breadcrumbs.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4"
+            className="flex items-center gap-1 text-sm mb-6"
           >
-            <Link href="/" className="hover:text-primary transition-colors">
+            <Link 
+              href="/" 
+              className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
+            >
               <Home className="w-4 h-4" />
+              <span className="sr-only sm:not-sr-only">Home</span>
             </Link>
             {breadcrumbs.map((crumb, index) => (
-              <span key={index} className="flex items-center gap-2">
-                <ChevronRight className="w-4 h-4" />
+              <span key={index} className="flex items-center gap-1">
+                <ChevronRight className="w-4 h-4 text-gray-400" />
                 {crumb.href ? (
                   <Link
                     href={crumb.href}
-                    className="hover:text-primary transition-colors"
+                    className="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
                   >
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-primary font-medium">{crumb.label}</span>
+                  <span className="text-primary dark:text-white font-medium">{crumb.label}</span>
                 )}
               </span>
             ))}
@@ -66,7 +70,7 @@ export default function PageHeader({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl"
+            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl"
           >
             {description}
           </motion.p>

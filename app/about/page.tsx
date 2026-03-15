@@ -16,12 +16,8 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 
 const timeline = [
-  { year: "2014", title: "Company Founded", description: "Started with a vision to transform Nigerian businesses through technology" },
-  { year: "2016", title: "First Major Client", description: "Secured partnership with a leading Nigerian bank" },
-  { year: "2018", title: "Expanded Services", description: "Added cybersecurity and cloud solutions to our portfolio" },
-  { year: "2020", title: "Remote Work Ready", description: "Helped 100+ businesses transition to remote operations" },
-  { year: "2022", title: "Industry Recognition", description: "Awarded 'Best ICT Company in Nigeria' by BusinessDay" },
-  { year: "2024", title: "500+ Projects", description: "Celebrated serving over 500 clients across Africa" },
+  { year: "2026", title: "Company Founded", description: "Started with a vision to transform Nigerian businesses through technology" },
+  { year: "2026", title: "Launch Operations", description: "Began serving our first clients with dedicated IT solutions" },
 ];
 
 const values = [
@@ -200,14 +196,14 @@ export default function AboutPage() {
                       and competitive advantage.
                     </p>
                     <p>
-                      Over the years, we have grown to become one of the most trusted ICT 
-                      service providers in Nigeria, serving clients across various industries 
-                      including banking, healthcare, manufacturing, retail, and logistics.
+                      As a newly established company, we bring fresh perspectives and modern 
+                      approaches to ICT solutions. Our experienced team combines technical expertise 
+                      with a deep understanding of the local business environment.
                     </p>
                     <p>
-                      Today, we continue to innovate and expand our services to meet the 
-                      evolving needs of our clients, staying at the forefront of technological 
-                      advancements to deliver solutions that drive real business value.
+                      While we are new to the market, our founders and team members bring years of 
+                      combined experience in the ICT industry. We are committed to building lasting 
+                      partnerships with our clients and delivering solutions that make a real difference.
                     </p>
                   </div>
                 </div>

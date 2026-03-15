@@ -25,10 +25,8 @@ const values = [
 ];
 
 const timeline = [
-  { year: "2014", title: "Founded", desc: "Company established" },
-  { year: "2016", title: "First 50 Clients", desc: "Milestone achieved" },
-  { year: "2019", title: "ISO Certified", desc: "Quality management" },
-  { year: "2024", title: "200+ Clients", desc: "Market leader" },
+  { year: "2026", title: "Founded", desc: "Company established in Abuja" },
+  { year: "2026", title: "First Projects", desc: "Delivering our first solutions" },
 ];
 
 export default function AboutSection() {
@@ -60,11 +58,11 @@ export default function AboutSection() {
             About SwiftPro
           </motion.span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary dark:text-white mb-6">
-            Driving Digital Transformation{" "}
-            <span className="text-secondary">Across Nigeria</span>
+            Your Partner in{" "}
+            <span className="text-secondary">Digital Excellence</span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            We are a leading ICT company dedicated to transforming businesses through innovative technology solutions.
+            We are a newly established ICT company dedicated to transforming businesses through innovative technology solutions.
           </p>
         </motion.div>
 

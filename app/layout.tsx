@@ -3,6 +3,8 @@ import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import BackToTop from "@/components/shared/BackToTop";
+import CookieConsent from "@/components/shared/CookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,12 +25,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Swift Professional Solutions Limited | Driving Digital Transformation Across Nigeria",
-  description: "Swift Professional Solutions Limited delivers world-class IT services across Nigeria — from Lagos to Abuja and beyond. IT Infrastructure, Software Development, Cybersecurity, Cloud Solutions, and more.",
-  keywords: ["ICT", "IT Solutions", "Nigeria", "Lagos", "Software Development", "Cybersecurity", "Cloud Solutions", "IT Consulting"],
+  title: "Swift Professional Solutions Limited | Your Partner in Digital Excellence",
+  description: "Swift Professional Solutions Limited is an ICT company in Abuja, Nigeria providing IT services including Software Development, Cybersecurity, Cloud Solutions, and IT Consulting.",
+  keywords: ["ICT", "IT Solutions", "Nigeria", "Abuja", "Software Development", "Cybersecurity", "Cloud Solutions", "IT Consulting"],
   openGraph: {
     title: "Swift Professional Solutions Limited",
-    description: "Driving Digital Transformation Across Nigeria",
+    description: "Your Partner in Digital Excellence",
     type: "website",
     locale: "en_NG",
     siteName: "Swift Professional Solutions Limited",
@@ -55,6 +57,8 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeProvider>
             {children}
+            <BackToTop />
+            <CookieConsent />
           </ThemeProvider>
         </ReduxProvider>
       </body>
