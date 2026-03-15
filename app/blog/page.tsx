@@ -45,12 +45,26 @@ export default function BlogPage() {
 
   const featuredPost = BLOG_POSTS[0];
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail("");
-      setTimeout(() => setSubscribed(false), 5000);
+    
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setSubscribed(true);
+        setEmail("");
+        setTimeout(() => setSubscribed(false), 5000);
+      } else {
+        const data = await response.json();
+        alert(data.error || "Something went wrong");
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
     }
   };
 
