@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, User, Clock, Share2, MessageCircle } from "lucide-
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
+import ShareButtons from "@/components/shared/ShareButtons";
 import { BLOG_POSTS } from "@/lib/constants";
 
 interface Props {
@@ -164,9 +165,7 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <span className="text-gray-600 dark:text-gray-400">Share this article:</span>
-                  <button className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors">
-                    <Share2 className="w-5 h-5" />
-                  </button>
+                  <ShareButtons title={post.title} />
                 </div>
                 <Link
                   href="/contact"
