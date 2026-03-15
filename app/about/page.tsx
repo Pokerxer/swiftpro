@@ -16,8 +16,8 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 
 const timeline = [
-  { year: "2026", title: "Company Founded", description: "Started with a vision to transform Nigerian businesses through technology" },
-  { year: "2026", title: "Launch Operations", description: "Began serving our first clients with dedicated IT solutions" },
+  { id: "founded", year: "2026", title: "Company Founded", description: "Started with a vision to transform Nigerian businesses through technology" },
+  { id: "launch", year: "2026", title: "Launch Operations", description: "Began serving our first clients with dedicated IT solutions" },
 ];
 
 const values = [
@@ -323,7 +323,7 @@ export default function AboutPage() {
             <div className="space-y-12 md:space-y-0">
               {timeline.map((item, index) => (
                 <motion.div
-                  key={item.year}
+                  key={item.id}
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}

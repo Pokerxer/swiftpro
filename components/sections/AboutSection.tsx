@@ -25,8 +25,8 @@ const values = [
 ];
 
 const timeline = [
-  { year: "2026", title: "Founded", desc: "Company established in Abuja" },
-  { year: "2026", title: "First Projects", desc: "Delivering our first solutions" },
+  { id: "founded", year: "2026", title: "Founded", desc: "Company established in Abuja" },
+  { id: "projects", year: "2026", title: "First Projects", desc: "Delivering our first solutions" },
 ];
 
 export default function AboutSection() {
@@ -118,7 +118,7 @@ export default function AboutSection() {
                     <div className="space-y-3">
                       {timeline.map((item, index) => (
                         <motion.div
-                          key={item.year}
+                          key={item.id}
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}

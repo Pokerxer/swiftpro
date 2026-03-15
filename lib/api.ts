@@ -5,7 +5,16 @@ const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"
 
 const api = axios.create({
   baseURL: `${STRAPI_URL}/api`,
+  timeout: 5000,
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("API Error:", error.message);
+    return Promise.resolve({ data: { data: [] } });
+  }
+);
 
 function transformService(doc: any): Service {
   return {
