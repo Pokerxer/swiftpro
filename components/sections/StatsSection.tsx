@@ -10,18 +10,18 @@ import { useRef } from "react";
 import { Users, Briefcase, Clock, ThumbsUp, Award, Globe, Star, TrendingUp } from "lucide-react";
 
 const partnerLogos = [
-  { name: "Microsoft", color: "#00A4EF" },
-  { name: "Google", color: "#4285F4" },
-  { name: "AWS", color: "#FF9900" },
-  { name: "Cisco", color: "#1BA0D7" },
-  { name: "Oracle", color: "#F80000" },
-  { name: "IBM", color: "#052FAD" },
+  { name: "First Bank", color: "#FF6900" },
+  { name: "GTBank", color: "#1D3E7E" },
+  { name: "Zenith Bank", color: "#E31E24" },
+  { name: "Nigerian Navy", color: "#1A365D" },
+  { name: "Nigerian Army", color: "#22543D" },
+  { name: "NCC", color: "#2D3748" },
 ];
 
 const achievements = [
-  { icon: Award, value: "ISO 27001", label: "Certified" },
-  { icon: Globe, value: "50+", label: "Countries" },
-  { icon: Star, value: "4.9", label: "Rating" },
+  { icon: Award, value: "ISO 9001", label: "Certified" },
+  { icon: Globe, value: "3+", label: "States" },
+  { icon: Star, value: "5.0", label: "Rating" },
 ];
 
 export default function StatsSection() {
@@ -181,7 +181,7 @@ export default function StatsSection() {
               Our Partners
             </span>
             <h3 className="text-2xl md:text-3xl font-heading font-bold text-primary dark:text-white">
-              Trusted by Industry Leaders
+              Trusted by Leading Organizations
             </h3>
           </motion.div>
 
