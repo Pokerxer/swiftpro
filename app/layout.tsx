@@ -5,6 +5,8 @@ import ReduxProvider from "@/components/providers/ReduxProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import BackToTop from "@/components/shared/BackToTop";
 import CookieConsent from "@/components/shared/CookieConsent";
+import JSONLD from "@/components/shared/JSONLD";
+import ErrorBoundary from "@/components/shared/ErrorBoundary";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -51,16 +53,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <JSONLD />
+      </head>
       <body
         className={`${inter.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        <ReduxProvider>
-          <ThemeProvider>
-            {children}
-            <BackToTop />
-            <CookieConsent />
-          </ThemeProvider>
-        </ReduxProvider>
+        <ErrorBoundary>
+          <ReduxProvider>
+            <ThemeProvider>
+              {children}
+              <BackToTop />
+              <CookieConsent />
+            </ThemeProvider>
+          </ReduxProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
