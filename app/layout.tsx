@@ -7,6 +7,7 @@ import BackToTop from "@/components/shared/BackToTop";
 import CookieConsent from "@/components/shared/CookieConsent";
 import JSONLD from "@/components/shared/JSONLD";
 import ErrorBoundary from "@/components/shared/ErrorBoundary";
+import Analytics from "@/components/shared/Analytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} antialiased`}
       >
+        <Analytics />
         <ErrorBoundary>
           <ReduxProvider>
             <ThemeProvider>
