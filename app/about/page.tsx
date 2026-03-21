@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -10,6 +10,8 @@ import {
   Trophy, Shield, Clock, TrendingUp
 } from "lucide-react";
 import { COMPANY_INFO, TEAM, WHY_CHOOSE_US, STATS } from "@/lib/constants";
+import { getTeamMembers, getStats, getWhyChooseUs } from "@/lib/api";
+import { TeamMember, Stat } from "@/types";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -68,6 +70,29 @@ function BookOpen({ className }: { className?: string }) {
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState("story");
+  const [team, setTeam] = useState(TEAM);
+  const [stats, setStats] = useState(STATS);
+  const [whyChooseUs, setWhyChooseUs] = useState(WHY_CHOOSE_US);
+
+  // Fetch from Strapi
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [strapiTeam, strapiStats, strapiWhy] = await Promise.all([
+          getTeamMembers(),
+          getStats(),
+          getWhyChooseUs(),
+        ]);
+        
+        if (strapiTeam.length > 0) setTeam(strapiTeam);
+        if (strapiStats.length > 0) setStats(strapiStats);
+        if (strapiWhy.length > 0) setWhyChooseUs(strapiWhy);
+      } catch (error) {
+        console.error("Error fetching about page data:", error);
+      }
+    };
+    fetchData();
+  }, []);
   
   return (
     <>
@@ -139,7 +164,7 @@ export default function AboutPage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {STATS.map((stat, index) => (
+            {stats.map((stat, index) => (
               <AnimatedCounter key={stat.label} stat={stat} index={index} />
             ))}
           </div>
@@ -369,7 +394,7 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {WHY_CHOOSE_US.map((item, index) => {
+            {whyChooseUs.map((item, index) => {
               const Icon = whyChooseIcons[item.icon] || Award;
               return (
                 <motion.div
@@ -416,7 +441,7 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TEAM.map((member, index) => (
+            {team.map((member, index) => (
               <motion.div
                 key={member.id}
                 initial={{ opacity: 0, y: 20 }}

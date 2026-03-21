@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Briefcase, Code, Shield, Cloud, Server } from "lucide-react";
 import PortfolioCard from "@/components/shared/PortfolioCard";
 import { PROJECTS } from "@/lib/constants";
+import { getProjects } from "@/lib/api";
+import { Project } from "@/types";
 import { cn } from "@/lib/utils";
 
 interface Category {
@@ -19,11 +21,30 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export default function PortfolioContent({ categories }: { categories: Category[] }) {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [projects, setProjects] = useState<Project[]>(PROJECTS);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch from Strapi
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const strapiProjects = await getProjects();
+        if (strapiProjects.length > 0) {
+          setProjects(strapiProjects);
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === "all") return PROJECTS;
-    return PROJECTS.filter((project) => project.category === activeFilter);
-  }, [activeFilter]);
+    if (activeFilter === "all") return projects;
+    return projects.filter((project) => project.category === activeFilter);
+  }, [activeFilter, projects]);
 
   return (
     <section className="py-16 md:py-24 bg-gray-50 dark:bg-[#0F172A]">

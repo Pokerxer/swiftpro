@@ -8,14 +8,34 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 import ShareButtons from "@/components/shared/ShareButtons";
 import { BLOG_POSTS } from "@/lib/constants";
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/api";
+import { BlogPost } from "@/types";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+async function getPost(slug: string): Promise<BlogPost | null> {
+  // Try Strapi first
+  const strapiPost = await getBlogPostBySlug(slug);
+  if (strapiPost) return strapiPost;
+  
+  // Fallback to constants
+  return BLOG_POSTS.find((p) => p.slug === slug) || null;
+}
+
+async function getAllPosts(): Promise<BlogPost[]> {
+  // Try Strapi first
+  const strapiPosts = await getBlogPosts();
+  if (strapiPosts.length > 0) return strapiPosts;
+  
+  // Fallback to constants
+  return BLOG_POSTS;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getPost(slug);
   
   if (!post) {
     return { title: "Blog Post Not Found" };
@@ -35,20 +55,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getPost(slug);
   
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = BLOG_POSTS
+  const allPosts = await getAllPosts();
+  const relatedPosts = allPosts
     .filter((p) => p.category === post.category && p.id !== post.id)
     .slice(0, 3);
 

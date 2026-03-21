@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, X, ArrowRight, Calendar, User, Clock, BookOpen,
-  PenTool, TrendingUp, Shield, Cloud, Mail, Send
+  PenTool, TrendingUp, Shield, Cloud, Mail, Send, Loader2
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 import { BLOG_POSTS } from "@/lib/constants";
+import { getBlogPosts } from "@/lib/api";
+import { BlogPost } from "@/types";
 
 const categories = [
   { id: "all", label: "All Posts", icon: BookOpen },
@@ -31,9 +33,28 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [posts, setPosts] = useState<BlogPost[]>(BLOG_POSTS);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch from Strapi
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const strapiPosts = await getBlogPosts();
+        if (strapiPosts.length > 0) {
+          setPosts(strapiPosts);
+        }
+      } catch (error) {
+        console.error("Error fetching blog posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const filteredPosts = useMemo(() => {
-    const filtered = BLOG_POSTS.filter((post) => {
+    const filtered = posts.filter((post) => {
       const matchesCategory = activeCategory === "all" || post.category === activeCategory;
       const matchesSearch = 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -41,9 +62,9 @@ export default function BlogPage() {
       return matchesCategory && matchesSearch;
     });
     return filtered;
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, posts]);
 
-  const featuredPost = BLOG_POSTS[0];
+  const featuredPost = posts[0];
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
