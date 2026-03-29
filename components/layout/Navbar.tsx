@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -112,21 +113,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <motion.div
-                whileHover={{ scale: 1.05, rotate: 2 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center shadow-lg shadow-primary/25"
-              >
-                <Zap className="w-6 h-6 text-white" />
-              </motion.div>
-              <div className="hidden sm:block">
-                <span className="font-heading font-bold text-xl text-primary dark:text-white tracking-tight">
-                  SwiftPro
-                </span>
-                <p className="text-[10px] text-gray-500 dark:text-gray-400 -mt-0.5 leading-none font-medium">
-                  Solutions Limited
-                </p>
-              </div>
+              <Image 
+                src="/logo.svg" 
+                alt="SwiftPro" 
+                width={144}
+                height={144}
+                className="rounded-xl"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -397,15 +390,13 @@ function MobileMenu({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-slate-800">
           <Link href="/" onClick={onClose} className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center shadow-lg">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <span className="font-heading font-bold text-lg text-primary dark:text-white">
-                SwiftPro
-              </span>
-              <p className="text-[9px] text-gray-500 dark:text-gray-400 -mt-0.5">Solutions Limited</p>
-            </div>
+            <Image 
+              src="/logo.svg" 
+              alt="SwiftPro" 
+              width={132}
+              height={132}
+              className="rounded-lg"
+            />
           </Link>
           <button
             onClick={onClose}

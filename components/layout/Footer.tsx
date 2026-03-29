@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
 import { COMPANY_INFO, NAV_LINKS, SERVICES } from "@/lib/constants";
@@ -12,11 +13,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">S</span>
-              </div>
-              <span className="font-heading font-bold text-xl">SwiftPro</span>
+            <div className="flex items-center gap-3 mb-4">
+              <Image 
+                src="/logo.svg" 
+                alt="SwiftPro" 
+                width={120}
+                height={120}
+                className="rounded-lg"
+              />
             </div>
             <p className="text-white/80 mb-6 text-sm leading-relaxed">
               {COMPANY_INFO.tagline}. Delivering world-class IT services across Nigeria.
