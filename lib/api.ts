@@ -2,9 +2,15 @@ import axios from "axios";
 import { Service, Project, BlogPost, TeamMember, Testimonial, Stat } from "@/types";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5002";
 
 const api = axios.create({
   baseURL: `${STRAPI_URL}/api`,
+  timeout: 5000,
+});
+
+const backendApi = axios.create({
+  baseURL: `${BACKEND_URL}/api`,
   timeout: 5000,
 });
 
@@ -222,21 +228,8 @@ export async function getCompanyInfo(): Promise<any> {
 
 export async function getHeroSlides(): Promise<any[]> {
   try {
-    const response = await api.get("/hero-slides", {
-      params: { populate: "*", sort: "order:asc" },
-    });
-    return response.data.data.map((doc: any) => ({
-      title: doc.title,
-      subtitle: doc.subtitle,
-      ctaPrimaryText: doc.ctaPrimaryText,
-      ctaPrimaryLink: doc.ctaPrimaryLink,
-      ctaSecondaryText: doc.ctaSecondaryText,
-      ctaSecondaryLink: doc.ctaSecondaryLink,
-      backgroundImage: doc.backgroundImage?.url
-        ? `${STRAPI_URL}${doc.backgroundImage.url}`
-        : "",
-      order: doc.order,
-    }));
+    const response = await backendApi.get("/hero");
+    return response.data;
   } catch (error) {
     console.error("Error fetching hero slides:", error);
     return [];

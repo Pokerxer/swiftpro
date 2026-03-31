@@ -17,8 +17,8 @@ export default function Footer() {
               <Image 
                 src="/logo.svg" 
                 alt="SwiftPro" 
-                width={120}
-                height={120}
+                width={135}
+                height={135}
                 className="rounded-lg"
               />
             </div>

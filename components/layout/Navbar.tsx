@@ -116,8 +116,8 @@ export default function Navbar() {
               <Image 
                 src="/logo.svg" 
                 alt="SwiftPro" 
-                width={144}
-                height={144}
+                width={162}
+                height={162}
                 className="rounded-xl"
               />
             </Link>
@@ -393,8 +393,8 @@ function MobileMenu({
             <Image 
               src="/logo.svg" 
               alt="SwiftPro" 
-              width={132}
-              height={132}
+              width={149}
+              height={149}
               className="rounded-lg"
             />
           </Link>
