@@ -1,92 +1,93 @@
 import axios from "axios";
 import { Service, Project, BlogPost, TeamMember, Testimonial, Stat } from "@/types";
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5002";
-
-const api = axios.create({
-  baseURL: `${STRAPI_URL}/api`,
-  timeout: 5000,
-});
 
 const backendApi = axios.create({
   baseURL: `${BACKEND_URL}/api`,
-  timeout: 5000,
+  timeout: 10000,
 });
 
-api.interceptors.response.use(
+backendApi.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error("API Error:", error.message);
-    return Promise.resolve({ data: { data: [] } });
+    return Promise.resolve({ data: [] });
   }
 );
 
+// Transform backend Service to frontend Service
 function transformService(doc: any): Service {
   return {
-    id: doc.id?.toString() || "",
-    slug: doc.slug || "",
+    id: doc._id?.toString() || "",
+    slug: doc.slug || doc.title?.toLowerCase().replace(/\s+/g, '-') || "",
     title: doc.title || "",
-    shortDescription: doc.shortDescription || "",
-    fullDescription: doc.fullDescription || "",
+    shortDescription: doc.description || "",
+    fullDescription: doc.description || "",
     icon: doc.icon || "Server",
     features: doc.features || [],
     processSteps: doc.processSteps || [],
   };
 }
 
+// Transform backend Project to frontend Project
 function transformProject(doc: any): Project {
   return {
-    id: doc.id?.toString() || "",
-    slug: doc.slug || "",
+    id: doc._id?.toString() || "",
+    slug: doc.title?.toLowerCase().replace(/\s+/g, '-') || "",
     title: doc.title || "",
     category: doc.category || "Web",
     description: doc.description || "",
-    fullDescription: doc.fullDescription || "",
-    image: doc.image?.url ? `${STRAPI_URL}${doc.image.url}` : "",
-    tags: doc.tags || [],
-    client: doc.client,
-    year: doc.year,
+    fullDescription: doc.description || "",
+    image: doc.image || "",
+    tags: doc.technologies || [],
+    link: doc.liveUrl || "",
+    client: "",
+    year: new Date(doc.createdAt).getFullYear().toString(),
   };
 }
 
+// Transform backend Post to frontend BlogPost
 function transformBlogPost(doc: any): BlogPost {
   return {
-    id: doc.id?.toString() || "",
+    id: doc._id?.toString() || "",
     slug: doc.slug || "",
     title: doc.title || "",
     excerpt: doc.excerpt || "",
     content: doc.content || "",
-    image: doc.image?.url ? `${STRAPI_URL}${doc.image.url}` : "",
+    image: doc.image || "",
     author: doc.author || "",
-    date: doc.date || "",
-    category: doc.category || "",
-    readTime: doc.readTime || "",
+    date: doc.publishedAt ? new Date(doc.publishedAt).toISOString().split('T')[0] : "",
+    category: doc.tags?.[0] || "",
+    readTime: "",
   };
 }
 
+// Transform backend TeamMember to frontend TeamMember
 function transformTeamMember(doc: any): TeamMember {
   return {
-    id: doc.id?.toString() || "",
+    id: doc._id?.toString() || "",
     name: doc.name || "",
     role: doc.role || "",
-    image: doc.image?.url ? `${STRAPI_URL}${doc.image.url}` : "",
+    image: doc.image || "",
     linkedin: doc.linkedin,
   };
 }
 
+// Transform backend Testimonial to frontend Testimonial
 function transformTestimonial(doc: any): Testimonial {
   return {
-    id: doc.id?.toString() || "",
+    id: doc._id?.toString() || "",
     name: doc.name || "",
     company: doc.company || "",
     role: doc.role || "",
-    quote: doc.quote || "",
+    quote: doc.content || doc.quote || "",
     rating: doc.rating || 5,
-    image: doc.image?.url ? `${STRAPI_URL}${doc.image.url}` : undefined,
+    image: doc.avatar || doc.image || "",
   };
 }
 
+// Transform backend Stat to frontend Stat
 function transformStat(doc: any): Stat {
   return {
     value: doc.value || 0,
@@ -95,10 +96,11 @@ function transformStat(doc: any): Stat {
   };
 }
 
+// Services
 export async function getServices(): Promise<Service[]> {
   try {
-    const response = await api.get("/services", { params: { populate: "*" } });
-    return response.data.data.map(transformService);
+    const response = await backendApi.get("/services");
+    return response.data.map(transformService);
   } catch (error) {
     console.error("Error fetching services:", error);
     return [];
@@ -107,24 +109,20 @@ export async function getServices(): Promise<Service[]> {
 
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
-    const response = await api.get("/services", {
-      params: {
-        "filters[slug][$eq]": slug,
-        populate: "*",
-      },
-    });
-    if (!response.data.data.length) return null;
-    return transformService(response.data.data[0]);
+    const response = await backendApi.get<Service[]>("/services");
+    const services = response.data.map(transformService);
+    return services.find((s: Service) => s.slug === slug) || null;
   } catch (error) {
     console.error("Error fetching service by slug:", error);
     return null;
   }
 }
 
+// Projects
 export async function getProjects(): Promise<Project[]> {
   try {
-    const response = await api.get("/projects", { params: { populate: "*" } });
-    return response.data.data.map(transformProject);
+    const response = await backendApi.get("/projects");
+    return response.data.map(transformProject);
   } catch (error) {
     console.error("Error fetching projects:", error);
     return [];
@@ -133,24 +131,20 @@ export async function getProjects(): Promise<Project[]> {
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   try {
-    const response = await api.get("/projects", {
-      params: {
-        "filters[slug][$eq]": slug,
-        populate: "*",
-      },
-    });
-    if (!response.data.data.length) return null;
-    return transformProject(response.data.data[0]);
+    const response = await backendApi.get<Project[]>("/projects");
+    const projects = response.data.map(transformProject);
+    return projects.find((p: Project) => p.slug === slug) || null;
   } catch (error) {
     console.error("Error fetching project by slug:", error);
     return null;
   }
 }
 
+// Blog Posts
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
-    const response = await api.get("/blog-posts", { params: { populate: "*" } });
-    return response.data.data.map(transformBlogPost);
+    const response = await backendApi.get("/posts");
+    return response.data.map(transformBlogPost);
   } catch (error) {
     console.error("Error fetching blog posts:", error);
     return [];
@@ -159,111 +153,91 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    const response = await api.get("/blog-posts", {
-      params: {
-        "filters[slug][$eq]": slug,
-        populate: "*",
-      },
-    });
-    if (!response.data.data.length) return null;
-    return transformBlogPost(response.data.data[0]);
+    const response = await backendApi.get<BlogPost[]>("/posts");
+    const posts = response.data.map(transformBlogPost);
+    return posts.find((p: BlogPost) => p.slug === slug) || null;
   } catch (error) {
     console.error("Error fetching blog post by slug:", error);
     return null;
   }
 }
 
+// Team Members
 export async function getTeamMembers(): Promise<TeamMember[]> {
   try {
-    const response = await api.get("/team-members", { params: { populate: "*" } });
-    return response.data.data.map(transformTeamMember);
+    const response = await backendApi.get("/team");
+    return response.data.map(transformTeamMember);
   } catch (error) {
     console.error("Error fetching team members:", error);
     return [];
   }
 }
 
+// Testimonials
 export async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    const response = await api.get("/testimonials", { params: { populate: "*" } });
-    return response.data.data.map(transformTestimonial);
+    const response = await backendApi.get("/testimonials");
+    return response.data.map(transformTestimonial);
   } catch (error) {
     console.error("Error fetching testimonials:", error);
     return [];
   }
 }
 
+// Stats
 export async function getStats(): Promise<Stat[]> {
   try {
-    const response = await api.get("/stats", { params: { populate: "*" } });
-    return response.data.data.map(transformStat);
+    const response = await backendApi.get("/stats");
+    return response.data.map(transformStat);
   } catch (error) {
     console.error("Error fetching stats:", error);
     return [];
   }
 }
 
+// Company Info - Using a static fallback since backend doesn't have this
 export async function getCompanyInfo(): Promise<any> {
   try {
-    const response = await api.get("/company-info");
-    if (!response.data.data) return null;
-    const doc = response.data.data;
-    return {
-      name: doc.name,
-      tagline: doc.tagline,
-      description: doc.description,
-      email: doc.email,
-      phone: doc.phone,
-      phoneRaw: doc.phoneRaw,
-      whatsappMessage: doc.whatsappMessage,
-      address: doc.address,
-      rcNumber: doc.rcNumber,
-      foundedYear: doc.foundedYear,
-    };
+    const response = await backendApi.get("/company");
+    return response.data;
   } catch (error) {
     console.error("Error fetching company info:", error);
-    return null;
+    // Return default company info
+    return {
+      name: "SwiftPro Technologies",
+      tagline: "Innovating Your Digital Future",
+      description: "We deliver cutting-edge IT solutions tailored to your business needs.",
+      email: "info@swiftpro.com",
+      phone: "+234 123 456 7890",
+      phoneRaw: "01234567890",
+      whatsappMessage: "Hello, I'm interested in your services.",
+      address: "Lagos, Nigeria",
+      rcNumber: "RC1234567",
+      foundedYear: 2020,
+    };
   }
 }
 
+// Hero Slides
 export async function getHeroSlides(): Promise<any[]> {
   try {
     const response = await backendApi.get("/hero");
-    return response.data;
+    if (response.data && response.data.slides) {
+      return response.data.slides;
+    }
+    return response.data || [];
   } catch (error) {
     console.error("Error fetching hero slides:", error);
     return [];
   }
 }
 
+// FAQs - Return empty since backend doesn't have this endpoint
 export async function getFAQs(): Promise<any[]> {
-  try {
-    const response = await api.get("/faqs", {
-      params: { populate: "*", sort: "order:asc" },
-    });
-    return response.data.data.map((doc: any) => ({
-      id: doc.id?.toString(),
-      question: doc.question,
-      answer: doc.answer,
-      category: doc.category,
-      order: doc.order,
-    }));
-  } catch (error) {
-    console.error("Error fetching FAQs:", error);
-    return [];
-  }
+  return [];
 }
 
+// Why Choose Us - Return empty since backend doesn't have this endpoint
 export async function getWhyChooseUs(): Promise<any[]> {
-  try {
-    const response = await api.get("/why-choose-ues", { params: { populate: "*" } });
-    return response.data.data.map((doc: any) => ({
-      title: doc.title,
-      description: doc.description,
-      icon: doc.icon,
-    }));
-  } catch (error) {
-    console.error("Error fetching why choose us:", error);
-    return [];
-  }
+  return [];
 }
