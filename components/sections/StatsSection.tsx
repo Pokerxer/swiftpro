@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { getStats } from "@/lib/api";
+import { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { getStats, getPartners } from "@/lib/api";
 import { STATS as FALLBACK_STATS } from "@/lib/constants";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Users, Briefcase, Clock, ThumbsUp, Award, Globe, Star, TrendingUp } from "lucide-react";
 
-const partnerLogos = [
+const defaultPartners = [
   { name: "First Bank", color: "#FF6900" },
   { name: "GTBank", color: "#1D3E7E" },
   { name: "Zenith Bank", color: "#E31E24" },
@@ -28,20 +26,27 @@ export default function StatsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const [stats, setStats] = useState(FALLBACK_STATS);
+  const [partners, setPartners] = useState(defaultPartners);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchData = async () => {
       try {
-        const strapiStats = await getStats();
-        if (strapiStats.length > 0) {
-          setStats(strapiStats);
+        const [statsData, partnersData] = await Promise.all([
+          getStats(),
+          getPartners()
+        ]);
+        if (statsData.length > 0) {
+          setStats(statsData);
+        }
+        if (partnersData.length > 0) {
+          setPartners(partnersData);
         }
       } catch (error) {
-        console.error("Error fetching stats:", error);
+        console.error("Error fetching data:", error);
       }
     };
     
-    fetchStats();
+    fetchData();
   }, []);
 
   return (
@@ -202,7 +207,7 @@ export default function StatsSection() {
                 }}
                 className="flex items-center gap-12 md:gap-20"
               >
-                {[...partnerLogos, ...partnerLogos].map((logo, index) => (
+                {[...partners, ...partners].map((logo, index) => (
                   <motion.div
                     key={`${logo.name}-${index}`}
                     whileHover={{ scale: 1.1, y: -5 }}

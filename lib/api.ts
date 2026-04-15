@@ -241,3 +241,14 @@ export async function getFAQs(): Promise<any[]> {
 export async function getWhyChooseUs(): Promise<any[]> {
   return [];
 }
+
+// Partners
+export async function getPartners(): Promise<any[]> {
+  try {
+    const response = await backendApi.get("/partners/active");
+    return response.data || [];
+  } catch (error) {
+    console.error("Error fetching partners:", error);
+    return [];
+  }
+}
