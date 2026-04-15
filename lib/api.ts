@@ -22,6 +22,7 @@ function transformService(doc: any): Service {
     id: doc._id?.toString() || "",
     slug: doc.slug || doc.title?.toLowerCase().replace(/\s+/g, '-') || "",
     title: doc.title || "",
+    category: doc.category || "development",
     shortDescription: doc.description || "",
     fullDescription: doc.description || "",
     icon: doc.icon || "Server",

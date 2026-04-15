@@ -2,6 +2,7 @@ export interface Service {
   id: string;
   slug: string;
   title: string;
+  category: "infrastructure" | "development" | "security" | "consulting";
   shortDescription: string;
   fullDescription: string;
   icon: string;

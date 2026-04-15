@@ -155,7 +155,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         (item) =>
           item.title.toLowerCase().includes(lowerQuery) ||
           item.description?.toLowerCase().includes(lowerQuery) ||
-          item.category.toLowerCase().includes(lowerQuery)
+          (item.category && item.category.toLowerCase().includes(lowerQuery))
       );
       setResults(filtered.slice(0, 8));
       setSelectedIndex(0);

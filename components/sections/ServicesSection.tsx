@@ -12,6 +12,8 @@ import { getServices } from "@/lib/api";
 import { SERVICES as fallbackServices } from "@/lib/constants";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  server: Server, code: Code, shield: Shield, cloud: Cloud, briefcase: Briefcase, headphones: Headphones,
+  code2: Code2, lock: Lock, cloudlightning: CloudLightning, zap: Zap, shieldcheck: ShieldCheck, users: Users, database: Database,
   Server, Code, Shield, Cloud, Briefcase, Headphones, Code2, Lock, CloudLightning, Zap, ShieldCheck, Users, Database
 };
 
@@ -26,6 +28,7 @@ const gradientMap: Record<string, string> = {
 
 const servicesData = fallbackServices.map((s, index) => ({
   ...s,
+  category: s.category || "development",
   icon: iconMap[s.icon] || Server,
   gradient: gradientMap[s.icon] || Object.values(gradientMap)[index % 6],
   features: s.features?.slice(0, 4) || [],
@@ -54,6 +57,7 @@ export default function ServicesSection() {
             id: s.id,
             slug: s.slug,
             title: s.title,
+            category: s.category || "development",
             shortDescription: s.shortDescription,
             icon: iconMap[s.icon] || Server,
             gradient: gradientMap[s.icon] || Object.values(gradientMap)[index % 6],
@@ -71,13 +75,7 @@ export default function ServicesSection() {
 
   const filteredServices = activeCategory === "all" 
     ? services 
-    : services.filter(s => {
-        if (activeCategory === "infrastructure") return s.id === "1" || s.id === "4";
-        if (activeCategory === "development") return s.id === "2";
-        if (activeCategory === "security") return s.id === "3";
-        if (activeCategory === "consulting") return s.id === "5" || s.id === "6";
-        return true;
-      });
+    : services.filter(s => s.category === activeCategory);
 
   return (
     <section className="py-20 md:py-32 bg-gray-50 dark:bg-[#0F172A] relative overflow-hidden">
@@ -123,8 +121,8 @@ export default function ServicesSection() {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all{
-                activeCategory duration-300 $ === category.id
+              className={`relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                activeCategory === category.id
                   ? "text-white"
                   : "text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white"
               }`}
