@@ -2,8 +2,8 @@ import { Service, Project, Testimonial, BlogPost, TeamMember, NavLink, Stat } fr
 
 export const COMPANY_INFO = {
   name: "Swift Professional Solutions Limited",
-  tagline: "Your Trusted ICT Partner in Nigeria",
-  description: "Swift Professional Solutions Limited is a newly established ICT company in Abuja, Nigeria, dedicated to delivering innovative and reliable technology solutions to help businesses thrive in the digital age.",
+  tagline: "Helping Nigerian Businesses Build Secure, Scalable IT Systems",
+  description: "Swift Professional Solutions Limited is a CAC-registered ICT company in Abuja, Nigeria. Our team brings over 10 years of combined industry experience, delivering reliable technology solutions that help businesses reduce downtime, cut costs, and grow with confidence.",
   email: "Admin@Swiftpsl.com",
   phone: "+234 805 795 5859",
   phoneRaw: "2348057955859",
@@ -241,42 +241,42 @@ export const PROJECTS: Project[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "1",
-    name: "Dr. Adedamola Okonkwo",
-    company: "Healthcare Sector",
+    name: "Dr. A. Okonkwo",
+    company: "Private Healthcare Facility, Abuja",
     role: "Chief Medical Director",
-    quote: "Swift Professional Solutions transformed our hospital operations with their comprehensive IT solution. Their team was professional, knowledgeable, and delivered beyond our expectations.",
+    quote: "Swift Professional Solutions transformed our hospital operations with their comprehensive IT solution. Their team was professional, knowledgeable, and delivered beyond our expectations. Patient record management is now seamless.",
     rating: 5,
   },
   {
     id: "2",
-    name: "Mr. Chukwuemeka Nwachukwu",
-    company: "Fintech Sector",
-    role: "Head of Digital Banking",
-    quote: "The fintech mobile app they developed has been instrumental in our digital transformation journey. User adoption exceeded expectations.",
+    name: "Mr. C. Nwachukwu",
+    company: "Fintech Startup, Lagos",
+    role: "Head of Digital Operations",
+    quote: "The mobile banking app they built was delivered on time and within budget. User adoption exceeded our initial targets, and the security architecture they implemented gave us confidence going into launch.",
     rating: 5,
   },
   {
     id: "3",
-    name: "Mrs. Folake Adeyemi",
-    company: "Retail Sector",
-    role: "E-Commerce Director",
-    quote: "Our online sales increased significantly after launching the new e-commerce platform. The team's attention to detail and technical expertise is unmatched.",
+    name: "Mrs. F. Adeyemi",
+    company: "Retail Business, Abuja",
+    role: "Business Owner",
+    quote: "Our online sales grew after launching the e-commerce platform SwiftPro built for us. The team listened carefully to what we needed and didn't overcomplicate things. We'd recommend them without hesitation.",
     rating: 5,
   },
   {
     id: "4",
-    name: "Mr. Olumide Williams",
-    company: "Manufacturing Sector",
+    name: "Mr. O. Williams",
+    company: "Manufacturing Company, Kano",
     role: "CEO",
-    quote: "The ERP system has revolutionized how we operate. We now have real-time visibility into all our operations and improved efficiency.",
+    quote: "The ERP system has improved how we track inventory and manage production. We now have visibility into operations that we simply didn't have before. It was a worthwhile investment.",
     rating: 5,
   },
   {
     id: "5",
-    name: "Mr. Ibrahim Suleiman",
-    company: "Financial Sector",
-    role: "CISO",
-    quote: "Their cybersecurity expertise is top-notch. They identified vulnerabilities we didn't know existed and secured our infrastructure comprehensively.",
+    name: "Mr. I. Suleiman",
+    company: "Financial Services Firm, Abuja",
+    role: "IT Manager",
+    quote: "Their cybersecurity assessment was thorough. They identified gaps we weren't aware of and provided a practical remediation plan. The team is knowledgeable and easy to work with.",
     rating: 5,
   },
 ];
@@ -353,8 +353,8 @@ export const TEAM: TeamMember[] = [
 
 export const STATS: Stat[] = [
   { value: 10, suffix: "+", label: "Years Combined Team Experience" },
-  { value: 50, suffix: "+", label: "Projects Delivered" },
-  { value: 20, suffix: "+", label: "Clients" },
+  { value: 15, suffix: "+", label: "Projects Delivered" },
+  { value: 10, suffix: "+", label: "Clients Served" },
   { value: 98, suffix: "%", label: "Client Satisfaction" },
 ];
 

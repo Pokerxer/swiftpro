@@ -12,12 +12,12 @@ import BlogSection from "@/components/sections/BlogSection";
 import CTASection from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "Swift Professional Solutions Limited | Your Partner in Digital Excellence",
-  description: "Swift Professional Solutions Limited is an ICT company in Abuja, Nigeria providing world-class IT services including Software Development, Cybersecurity, Cloud Solutions, IT Infrastructure and Managed IT Support.",
+  title: "Swift Professional Solutions Limited | IT Solutions for Nigerian Businesses",
+  description: "Swift Professional Solutions Limited is a CAC-registered ICT company in Abuja, Nigeria — providing Software Development, Cybersecurity, Cloud Solutions, IT Infrastructure and Managed IT Support.",
   keywords: ["ICT", "IT Solutions", "Nigeria", "Abuja", "Software Development", "Cybersecurity", "Cloud Solutions", "IT Consulting"],
   openGraph: {
     title: "Swift Professional Solutions Limited",
-    description: "Your Partner in Digital Excellence",
+    description: "Helping Nigerian Businesses Build Secure, Scalable IT Systems",
     type: "website",
     locale: "en_NG",
     siteName: "Swift Professional Solutions Limited",

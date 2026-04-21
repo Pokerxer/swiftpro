@@ -12,7 +12,8 @@ backendApi.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error("API Error:", error.message);
-    return Promise.resolve({ data: [] });
+    // Re-throw the error so callers can handle it
+    return Promise.reject(error);
   }
 );
 
@@ -20,11 +21,11 @@ backendApi.interceptors.response.use(
 function transformService(doc: any): Service {
   return {
     id: doc._id?.toString() || "",
-    slug: doc.slug || doc.title?.toLowerCase().replace(/\s+/g, '-') || "",
+    slug: doc.slug || doc.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || "",
     title: doc.title || "",
     category: doc.category || "development",
-    shortDescription: doc.description || "",
-    fullDescription: doc.description || "",
+    shortDescription: doc.shortDescription || doc.description || "",
+    fullDescription: doc.fullDescription || doc.description || "",
     icon: doc.icon || "Server",
     features: doc.features || [],
     processSteps: doc.processSteps || [],
@@ -110,12 +111,18 @@ export async function getServices(): Promise<Service[]> {
 
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
-    const response = await backendApi.get<Service[]>("/services");
-    const services = response.data.map(transformService);
-    return services.find((s: Service) => s.slug === slug) || null;
+    const response = await backendApi.get(`/services/slug/${slug}`);
+    return transformService(response.data);
   } catch (error) {
-    console.error("Error fetching service by slug:", error);
-    return null;
+    // Fallback: fetch all and filter (e.g. older records without slug)
+    try {
+      const response = await backendApi.get<any[]>("/services");
+      const services = response.data.map(transformService);
+      return services.find((s: Service) => s.slug === slug) || null;
+    } catch {
+      console.error("Error fetching service by slug:", error);
+      return null;
+    }
   }
 }
 

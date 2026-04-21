@@ -131,7 +131,7 @@ export default function AboutPage() {
               <span className="text-secondary">Innovation</span>
             </h1>
             <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Learn about our journey, mission, and commitment to transforming businesses through cutting-edge technology solutions
+              We are a CAC-registered ICT company backed by over 10 years of combined team experience — delivering secure, scalable technology solutions for Nigerian businesses.
             </p>
           </motion.div>
 

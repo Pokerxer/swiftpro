@@ -32,7 +32,7 @@ const servicesData = fallbackServices.map((s, index) => ({
   icon: iconMap[s.icon] || Server,
   gradient: gradientMap[s.icon] || Object.values(gradientMap)[index % 6],
   features: s.features?.slice(0, 4) || [],
-  stats: ["99.9% Uptime", "500+ Networks", "100+ Data Centers"],
+  stats: [],
 }));
 
 const categories = [
@@ -62,7 +62,7 @@ export default function ServicesSection() {
             icon: iconMap[s.icon] || Server,
             gradient: gradientMap[s.icon] || Object.values(gradientMap)[index % 6],
             features: s.features?.slice(0, 4) || [],
-            stats: ["99.9% Uptime", "500+ Networks", "100+ Data Centers"],
+            stats: [],
           }));
           setServices(mapped);
         }
@@ -197,15 +197,6 @@ export default function ServicesSection() {
                           >
                             {feature}
                           </span>
-                        ))}
-                      </div>
-
-                      {/* Stats */}
-                      <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-slate-700">
-                        {service.stats.map((stat: string, i: number) => (
-                          <div key={i} className="text-center">
-                            <p className="text-sm font-bold text-primary dark:text-white">{stat}</p>
-                          </div>
                         ))}
                       </div>
 

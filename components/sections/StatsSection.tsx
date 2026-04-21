@@ -8,16 +8,16 @@ import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import { Users, Briefcase, Clock, ThumbsUp, Award, Globe, Star, TrendingUp } from "lucide-react";
 
 const defaultPartners = [
-  { name: "First Bank", color: "#FF6900" },
-  { name: "GTBank", color: "#1D3E7E" },
-  { name: "Zenith Bank", color: "#E31E24" },
-  { name: "Nigerian Navy", color: "#1A365D" },
-  { name: "Nigerian Army", color: "#22543D" },
-  { name: "NCC", color: "#2D3748" },
+  { name: "Finance", color: "#1D3E7E" },
+  { name: "Healthcare", color: "#22543D" },
+  { name: "Government", color: "#1A365D" },
+  { name: "Telecoms", color: "#2D3748" },
+  { name: "Retail", color: "#B45309" },
+  { name: "Logistics", color: "#6D28D9" },
 ];
 
 const achievements = [
-  { icon: Award, value: "ISO 9001", label: "Certified" },
+  { icon: Award, value: "CAC", label: "Registered" },
   { icon: Globe, value: "3+", label: "States" },
   { icon: Star, value: "5.0", label: "Rating" },
 ];
@@ -103,7 +103,7 @@ export default function StatsSection() {
               Numbers That Speak
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              A decade of delivering exceptional IT solutions across Nigeria and beyond
+              Built on over 10 years of combined industry experience across Nigeria
             </p>
           </motion.div>
 
@@ -186,7 +186,7 @@ export default function StatsSection() {
               Our Partners
             </span>
             <h3 className="text-2xl md:text-3xl font-heading font-bold text-primary dark:text-white">
-              Trusted by Leading Organizations
+              Industries We Serve
             </h3>
           </motion.div>
 
@@ -235,9 +235,9 @@ export default function StatsSection() {
             className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
           >
             {[
-              { value: "98%", label: "Client Retention", icon: TrendingUp },
-              { value: "150+", label: "Enterprise Clients", icon: Briefcase },
-              { value: "50+", label: "Industry Awards", icon: Award },
+              { value: "98%", label: "Client Satisfaction", icon: TrendingUp },
+              { value: "10+", label: "Clients Served", icon: Briefcase },
+              { value: "6", label: "Core Services", icon: Award },
               { value: "24/7", label: "Support Available", icon: Clock },
             ].map((item, index) => (
               <motion.div
