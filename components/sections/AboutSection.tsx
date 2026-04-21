@@ -103,37 +103,20 @@ export default function AboutSection() {
                   className="space-y-6"
                 >
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                    Since <strong>{COMPANY_INFO.foundedYear}</strong>, <strong>{COMPANY_INFO.name}</strong> has been at the 
-                    forefront of digital transformation in Nigeria. What started as a small IT consultancy has grown into 
-                    one of the nation's most trusted technology partners.
+                    Swift Professional Solutions Limited was founded with a clear vision—to bridge the gap between business needs and reliable technology solutions in a fast-changing digital world.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    We've had the privilege of serving over 200 clients across banking, healthcare, manufacturing, 
-                    retail, and logistics sectors — delivering solutions that drive real business value.
+                    In many organizations, technology was often seen as complex, slow, and difficult to manage. Projects were delayed, systems underperformed, and businesses struggled to keep up with the pace of innovation. We saw an opportunity to do things differently.
                   </p>
-                  
-                  {/* Timeline */}
-                  <div className="pt-4">
-                    <h4 className="font-semibold text-primary dark:text-white mb-4">Our Journey</h4>
-                    <div className="space-y-3">
-                      {timeline.map((item, index) => (
-                        <motion.div
-                          key={item.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: index * 0.1 }}
-                          className="flex items-center gap-4"
-                        >
-                          <div className="w-16 text-sm font-bold text-secondary">{item.year}</div>
-                          <div className="flex-1 p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
-                            <p className="font-medium text-primary dark:text-white text-sm">{item.title}</p>
-                            <p className="text-xs text-gray-500">{item.desc}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Driven by a passion for excellence and a commitment to efficiency, Swift Professional Solutions Limited was established to deliver fast, dependable, and high-quality ICT solutions that truly make a difference. From the beginning, our focus has been simple: understand our clients' challenges, respond with speed, and deliver solutions that work—every time.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    We are your trusted partner for businesses seeking not just technology services, but reliable expertise and long-term value. Our strength lies in combining innovation, technical know-how, and integrity to help organizations operate smarter, scale faster, and achieve sustainable success.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Today, Swift Professional Solutions Limited continues to evolve with the ever-changing technology landscape, staying true to our core belief—technology should empower businesses, not slow them down.
+                  </p>
                 </motion.div>
               )}
 
