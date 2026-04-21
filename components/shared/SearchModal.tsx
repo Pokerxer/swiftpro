@@ -153,7 +153,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       const lowerQuery = searchQuery.toLowerCase();
       const filtered = searchData.filter(
         (item) =>
-          item.title.toLowerCase().includes(lowerQuery) ||
+          item.title?.toLowerCase().includes(lowerQuery) ||
           item.description?.toLowerCase().includes(lowerQuery) ||
           (item.category && item.category.toLowerCase().includes(lowerQuery))
       );

@@ -201,7 +201,7 @@ export default function TestimonialsSection() {
                       
                       {/* Stars */}
                       <div className="flex gap-1">
-                        {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                        {[...Array(testimonials[currentIndex]?.rating || 5)].map((_, i) => (
                           <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
@@ -209,25 +209,25 @@ export default function TestimonialsSection() {
 
                     {/* Quote Text */}
                     <blockquote className="text-xl md:text-2xl text-gray-700 dark:text-gray-200 leading-relaxed mb-10 italic">
-                      &ldquo;{testimonials[currentIndex].quote}&rdquo;
+                      &ldquo;{testimonials[currentIndex]?.quote}&rdquo;
                     </blockquote>
 
                     {/* Author */}
                     <div className="flex items-center gap-4 pt-6 border-t border-gray-100 dark:border-slate-700">
                       <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
                         <span className="text-white font-bold text-xl">
-                          {testimonials[currentIndex].name.split(' ').map(n => n[0]).join('')}
+                          {testimonials[currentIndex]?.name.split(' ').map(n => n[0]).join('')}
                         </span>
                       </div>
                       <div className="flex-1">
                         <h4 className="font-bold text-primary dark:text-white text-lg">
-                          {testimonials[currentIndex].name}
+                          {testimonials[currentIndex]?.name}
                         </h4>
                         <p className="text-gray-500 dark:text-gray-400">
-                          {testimonials[currentIndex].role}
+                          {testimonials[currentIndex]?.role}
                         </p>
                         <p className="text-primary dark:text-accent font-medium">
-                          {testimonials[currentIndex].company}
+                          {testimonials[currentIndex]?.company}
                         </p>
                       </div>
                     </div>
