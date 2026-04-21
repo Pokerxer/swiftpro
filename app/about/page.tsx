@@ -418,78 +418,9 @@ export default function AboutPage() {
                 </motion.div>
               );
             })}
-          </div>
+</div>
         </div>
       </section>
-
-      {/* Leadership Team 
-      <section className="py-20 md:py-28 bg-white dark:bg-[#0F172A]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
-              <Users className="w-4 h-4" />
-              Our Team
-            </span>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary dark:text-white">
-              Meet Our Leadership
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, index) => (
-              <motion.div
-                key={member.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="group relative"
-              >
-                <div className="p-6 rounded-3xl bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-center overflow-hidden">
-                  {/* Gradient overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  <div className="relative">
-                    <div className="w-28 h-28 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-accent p-1">
-                      <div className="w-full h-full rounded-full bg-white dark:bg-slate-800 flex items-center justify-center">
-                        <span className="text-4xl font-bold text-primary">
-                          {member.name.charAt(0)}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <h3 className="font-heading font-semibold text-lg text-primary dark:text-white mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
-                      {member.role}
-                    </p>
-                    
-                    {member.linkedin && (
-                      <a
-                        href={member.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-300 text-sm font-medium"
-                      >
-                        <Linkedin className="w-4 h-4" />
-                        Connect
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-      */}
 
       {/* Contact CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary to-accent relative overflow-hidden">
