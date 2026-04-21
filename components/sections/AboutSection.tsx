@@ -117,6 +117,9 @@ export default function AboutSection() {
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                     Today, Swift Professional Solutions Limited continues to evolve with the ever-changing technology landscape, staying true to our core belief—technology should empower businesses, not slow them down.
                   </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                    We are not just service providers. We are partners in progress, committed to delivering speed, precision, and excellence in everything we do.
+                  </p>
                 </motion.div>
               )}
 

@@ -230,6 +230,9 @@ export default function AboutPage() {
                     <p>
                       Today, Swift Professional Solutions Limited continues to evolve with the ever-changing technology landscape, staying true to our core belief—technology should empower businesses, not slow them down.
                     </p>
+                    <p className="font-medium">
+                      We are not just service providers. We are partners in progress, committed to delivering speed, precision, and excellence in everything we do.
+                    </p>
                   </div>
                 </div>
                 <div className="order-1 lg:order-2 relative">
