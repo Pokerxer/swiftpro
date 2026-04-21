@@ -213,7 +213,7 @@ export async function getCompanyInfo(): Promise<any> {
       phoneRaw: "01234567890",
       whatsappMessage: "Hello, I'm interested in your services.",
       address: "Lagos, Nigeria",
-      rcNumber: "RC1234567",
+      rcNumber: "8368089",
       foundedYear: 2020,
     };
   }
