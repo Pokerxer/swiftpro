@@ -419,7 +419,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Leadership Team */}
+      {/* Leadership Team 
       <section className="py-20 md:py-28 bg-white dark:bg-[#0F172A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -486,6 +486,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Contact CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary to-accent relative overflow-hidden">
