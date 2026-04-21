@@ -267,9 +267,7 @@ export default function AboutPage() {
                   <Target className="w-12 h-12 mb-4 opacity-90" />
                   <h3 className="text-2xl font-heading font-bold mb-4">Our Mission</h3>
                   <p className="text-white/80 leading-relaxed">
-                    To empower Nigerian businesses with innovative, reliable, and cost-effective 
-                    IT solutions that enhance productivity, drive growth, and create sustainable 
-                    competitive advantage in the digital age.
+                    To provide world-class ICT and professional solutions by leveraging innovation, expertise and integrity, empowering businesses to achieve sustainable success with speed, precision and excellence.
                   </p>
                 </motion.div>
                 <motion.div
@@ -279,8 +277,7 @@ export default function AboutPage() {
                   <Eye className="w-12 h-12 mb-4 opacity-90" />
                   <h3 className="text-2xl font-heading font-bold mb-4">Our Vision</h3>
                   <p className="text-white/80 leading-relaxed">
-                    To be the leading ICT solutions provider in Nigeria and across Africa, 
-                    recognized for excellence, innovation, and commitment to client success.
+                    To be the leading and trusted provider of ICT and professional solutions, recognized for innovation, expertise and for empowering businesses to achieve sustainable success in a fast-evolving digital world.
                   </p>
                 </motion.div>
               </motion.div>

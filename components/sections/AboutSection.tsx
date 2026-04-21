@@ -131,17 +131,14 @@ export default function AboutSection() {
                   <div className="p-6 rounded-2xl bg-gradient-to-br from-primary to-accent">
                     <h4 className="text-white font-bold text-xl mb-3">Our Mission</h4>
                     <p className="text-white/80 leading-relaxed">
-                      To empower Nigerian businesses with innovative, reliable, and cost-effective IT solutions 
-                      that enhance productivity, drive growth, and create sustainable competitive advantage 
-                      in the digital age.
+                      To provide world-class ICT and professional solutions by leveraging innovation, expertise and integrity, empowering businesses to achieve sustainable success with speed, precision and excellence.
                     </p>
                   </div>
 
                   <div className="p-6 rounded-2xl bg-gradient-to-br from-secondary to-orange-500">
                     <h4 className="text-white font-bold text-xl mb-3">Our Vision</h4>
                     <p className="text-white/80 leading-relaxed">
-                      To be the leading ICT solutions provider in Nigeria and across Africa, recognized 
-                      for excellence, innovation, and unwavering commitment to client success.
+                      To be the leading and trusted provider of ICT and professional solutions, recognized for innovation, expertise and for empowering businesses to achieve sustainable success in a fast-evolving digital world.
                     </p>
                   </div>
 
