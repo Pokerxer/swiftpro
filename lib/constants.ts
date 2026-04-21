@@ -9,7 +9,7 @@ export const COMPANY_INFO = {
   phoneRaw: "2348037415509",
   whatsappMessage: "Hello Swift Professional Solutions, I'd like to enquire about your services.",
   address: "House 12b Paradise Estate, Katampe, Abuja, Nigeria",
-  rcNumber: "8368089",
+  rcNumber: "RC-8368089",
   foundedYear: 2026,
 };
 
