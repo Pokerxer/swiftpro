@@ -216,19 +216,19 @@ export default function AboutPage() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
                     <p>
-                      Founded in {COMPANY_INFO.foundedYear}, {COMPANY_INFO.name} began with a 
-                      simple vision: to help Nigerian businesses leverage technology for growth 
-                      and competitive advantage.
+                      Swift Professional Solutions Limited was founded with a clear vision—to bridge the gap between business needs and reliable technology solutions in a fast-changing digital world.
                     </p>
                     <p>
-                      As a newly established company, we bring fresh perspectives and modern 
-                      approaches to ICT solutions. Our experienced team combines technical expertise 
-                      with a deep understanding of the local business environment.
+                      In many organizations, technology was often seen as complex, slow, and difficult to manage. Projects were delayed, systems underperformed, and businesses struggled to keep up with the pace of innovation. We saw an opportunity to do things differently.
                     </p>
                     <p>
-                      While we are new to the market, our founders and team members bring years of 
-                      combined experience in the ICT industry. We are committed to building lasting 
-                      partnerships with our clients and delivering solutions that make a real difference.
+                      Driven by a passion for excellence and a commitment to efficiency, Swift Professional Solutions Limited was established to deliver fast, dependable, and high-quality ICT solutions that truly make a difference. From the beginning, our focus has been simple: understand our clients' challenges, respond with speed, and deliver solutions that work—every time.
+                    </p>
+                    <p>
+                      We are your trusted partner for businesses seeking not just technology services, but reliable expertise and long-term value. Our strength lies in combining innovation, technical know-how, and integrity to help organizations operate smarter, scale faster, and achieve sustainable success.
+                    </p>
+                    <p>
+                      Today, Swift Professional Solutions Limited continues to evolve with the ever-changing technology landscape, staying true to our core belief—technology should empower businesses, not slow them down.
                     </p>
                   </div>
                 </div>
