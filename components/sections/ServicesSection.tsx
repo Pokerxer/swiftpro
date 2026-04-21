@@ -264,8 +264,8 @@ export default function ServicesSection() {
           className="mt-20 flex flex-wrap justify-center items-center gap-8 opacity-60"
         >
           {[
-            { icon: ShieldCheck, label: "ISO 27001 Certified" },
-            { icon: CheckCircle2, label: "10+ Years Experience" },
+            { icon: ShieldCheck, label: "Security First Approach" },
+            { icon: CheckCircle2, label: "10+ Years Combined Team Experience" },
             { icon: Zap, label: "24/7 Support" },
           ].map((badge, index) => (
             <div key={index} className="flex items-center gap-2 text-gray-500 dark:text-gray-400">

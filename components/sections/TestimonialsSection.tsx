@@ -53,9 +53,9 @@ const fallbackTestimonials: Testimonial[] = [
 ];
 
 const stats = [
-  { icon: Building2, value: "200+", label: "Clients" },
+  { icon: Building2, value: "20+", label: "Clients" },
   { icon: ThumbsUp, value: "98%", label: "Satisfaction" },
-  { icon: Award, value: "50+", label: "Industries" },
+  { icon: Award, value: "5+", label: "Industries" },
 ];
 
 export default function TestimonialsSection() {

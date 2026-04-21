@@ -11,10 +11,9 @@ import { COMPANY_INFO } from "@/lib/constants";
 import { getTeamMembers, getWhyChooseUs, getStats } from "@/lib/api";
 
 const stats = [
-  { value: "500+", label: "Projects Completed", icon: Trophy },
-  { value: "200+", label: "Happy Clients", icon: Users },
-  { value: "10+", label: "Years Experience", icon: Clock },
-  { value: "98%", label: "Success Rate", icon: Target },
+  { value: "50+", label: "Projects Completed", icon: Trophy },
+  { value: "20+", label: "Happy Clients", icon: Users },
+  { value: "10+", label: "Years Combined Team Experience", icon: Clock },
 ];
 
 const values = [
@@ -295,8 +294,8 @@ export default function AboutSection() {
                     <Award className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-primary dark:text-white text-sm">ISO 27001</p>
-                    <p className="text-xs text-gray-500">Certified</p>
+                    <p className="font-semibold text-primary dark:text-white text-sm">RC 8368089</p>
+                    <p className="text-xs text-gray-500">CAC Registered</p>
                   </div>
                 </div>
               </motion.div>
