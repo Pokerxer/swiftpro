@@ -7,8 +7,30 @@ import PortfolioContent from "./PortfolioContent";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Portfolio | Swift Professional Solutions Limited",
-  description: "Explore our IT projects and case studies showcasing our expertise in Software Development, Cybersecurity, Cloud Solutions, and IT Infrastructure in Nigeria.",
+  title: "Portfolio & Case Studies | Swift Professional Solutions Limited",
+  description: "Explore our IT projects and case studies showcasing our expertise in Software Development, Cybersecurity, Cloud Solutions, and IT Infrastructure across Nigeria.",
+  keywords: [
+    "IT portfolio Nigeria",
+    "software development projects Abuja",
+    "cybersecurity case studies Nigeria",
+    "cloud migration Nigeria",
+    "Swift Professional Solutions projects",
+  ],
+  openGraph: {
+    title: "Portfolio & Case Studies | Swift Professional Solutions Limited",
+    description: "Real-world IT projects and case studies — Software Development, Cybersecurity, Cloud Solutions, and IT Infrastructure in Nigeria.",
+    type: "website",
+    locale: "en_NG",
+    siteName: "Swift Professional Solutions Limited",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Portfolio & Case Studies | Swift Professional Solutions Limited",
+    description: "Real-world IT projects and case studies for Nigerian businesses.",
+  },
+  alternates: {
+    canonical: "/portfolio",
+  },
 };
 
 const categories = [

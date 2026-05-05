@@ -19,10 +19,14 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Headphones,
 };
 
+export async function generateStaticParams() {
+  return SERVICES.map((service) => ({ slug: service.slug }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   let service = SERVICES.find((s) => s.slug === slug) || null;
-  
+
   try {
     const strapiService = await getServiceBySlug(slug);
     if (strapiService) {
@@ -31,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   } catch (error) {
     console.error("Error fetching service:", error);
   }
-  
+
   if (!service) {
     return { title: "Service Not Found" };
   }
@@ -39,6 +43,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${service.title} | Swift Professional Solutions Limited`,
     description: service.shortDescription,
+    keywords: [
+      service.title,
+      `${service.title} Nigeria`,
+      `${service.title} Abuja`,
+      "ICT services Nigeria",
+      "IT solutions Abuja",
+      "Swift Professional Solutions",
+    ],
+    openGraph: {
+      title: `${service.title} | Swift Professional Solutions Limited`,
+      description: service.shortDescription,
+      type: "website",
+      locale: "en_NG",
+      siteName: "Swift Professional Solutions Limited",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.title} | Swift Professional Solutions Limited`,
+      description: service.shortDescription,
+    },
+    alternates: {
+      canonical: `/services/${slug}`,
+    },
   };
 }
 

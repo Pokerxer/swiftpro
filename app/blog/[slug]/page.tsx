@@ -44,12 +44,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} | Swift Professional Solutions Blog`,
     description: post.excerpt,
+    keywords: [post.category, "IT blog Nigeria", "technology insights", "Swift Professional Solutions"],
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
+      locale: "en_NG",
+      siteName: "Swift Professional Solutions Limited",
+      tags: [post.category],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+    },
+    alternates: {
+      canonical: `/blog/${post.slug}`,
     },
   };
 }

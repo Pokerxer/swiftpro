@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouteContext } from "@/hooks/useRouteContext";
-import { COMPANY_INFO } from "@/lib/constants";
+import { COMPANY_INFO, SERVICES } from "@/lib/constants";
 
 export default function JSONLD() {
   const pathname = useRouteContext();
@@ -71,6 +71,60 @@ export default function JSONLD() {
     },
   };
 
+  const serviceCatalogSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "IT Services by Swift Professional Solutions Limited",
+    description: "Comprehensive ICT services for Nigerian businesses",
+    url: "https://swiftpro.com.ng/services",
+    itemListElement: SERVICES.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: service.title,
+        description: service.shortDescription,
+        url: `https://swiftpro.com.ng/services/${service.slug}`,
+        provider: {
+          "@type": "Organization",
+          name: COMPANY_INFO.name,
+          url: "https://swiftpro.com.ng",
+        },
+        areaServed: {
+          "@type": "Country",
+          name: "Nigeria",
+        },
+      },
+    })),
+  };
+
+  const breadcrumbSchema = pathname && pathname !== "/"
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://swiftpro.com.ng",
+          },
+          ...pathname
+            .split("/")
+            .filter(Boolean)
+            .map((segment, index, arr) => ({
+              "@type": "ListItem",
+              position: index + 2,
+              name: segment
+                .split("-")
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(" "),
+              item: `https://swiftpro.com.ng/${arr.slice(0, index + 1).join("/")}`,
+            })),
+        ],
+      }
+    : null;
+
   return (
     <>
       <script
@@ -85,6 +139,16 @@ export default function JSONLD() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceCatalogSchema) }}
+      />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }
