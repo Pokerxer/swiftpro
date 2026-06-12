@@ -9,7 +9,8 @@ import {
   Target, Eye, Heart, Sparkles, Calendar, Star,
   Trophy, Shield, Clock, TrendingUp
 } from "lucide-react";
-import { COMPANY_INFO, TEAM, WHY_CHOOSE_US, STATS } from "@/lib/constants";
+import { TEAM, WHY_CHOOSE_US, STATS } from "@/lib/constants";
+import { useCompanyInfo } from "@/components/providers/CompanyInfoProvider";
 import { getTeamMembers, getStats, getWhyChooseUs } from "@/lib/api";
 import { TeamMember, Stat } from "@/types";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
@@ -69,6 +70,7 @@ function BookOpen({ className }: { className?: string }) {
 }
 
 export default function AboutPage() {
+  const COMPANY_INFO = useCompanyInfo();
   const [activeTab, setActiveTab] = useState("story");
   const [team, setTeam] = useState(TEAM);
   const [stats, setStats] = useState(STATS);
@@ -489,7 +491,9 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <p className="text-white font-semibold">Email Us</p>
-                  <p className="text-white/70 text-sm">{COMPANY_INFO.email}</p>
+                  {COMPANY_INFO.emails.map((email) => (
+                    <p key={email} className="text-white/70 text-sm">{email}</p>
+                  ))}
                 </div>
               </div>
             </motion.div>

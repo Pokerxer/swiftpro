@@ -1,28 +1,34 @@
 "use client";
 
 import { useRouteContext } from "@/hooks/useRouteContext";
-import { COMPANY_INFO, SERVICES } from "@/lib/constants";
+import { SERVICES } from "@/lib/constants";
+import { DEFAULT_COMPANY_INFO } from "@/lib/company-info";
+import { CompanyInfo } from "@/types";
 
-export default function JSONLD() {
+export default function JSONLD({
+  companyInfo = DEFAULT_COMPANY_INFO,
+}: {
+  companyInfo?: CompanyInfo;
+}) {
   const pathname = useRouteContext();
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: COMPANY_INFO.name,
+    name: companyInfo.name,
     url: "https://swiftpro.com.ng",
     logo: "https://swiftpro.com.ng/logo.png",
-    description: COMPANY_INFO.description,
+    description: companyInfo.description,
     foundingDate: `2026-01-01`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: COMPANY_INFO.address,
+      streetAddress: companyInfo.address,
       addressLocality: "Abuja",
       addressCountry: "NG",
     },
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: COMPANY_INFO.phone,
+      telephone: companyInfo.phone,
       contactType: "customer service",
       availableLanguage: ["English"],
     },
@@ -37,11 +43,11 @@ export default function JSONLD() {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: COMPANY_INFO.name,
+    name: companyInfo.name,
     image: "https://swiftpro.com.ng/logo.png",
     address: {
       "@type": "PostalAddress",
-      streetAddress: COMPANY_INFO.address,
+      streetAddress: companyInfo.address,
       addressLocality: "Abuja",
       addressRegion: "FC",
       postalCode: "900001",
@@ -53,8 +59,8 @@ export default function JSONLD() {
       longitude: "7.3986",
     },
     openingHours: "Mo-Fr 08:00-18:00",
-    telephone: COMPANY_INFO.phone,
-    email: COMPANY_INFO.email,
+    telephone: companyInfo.phone,
+    email: companyInfo.email,
     priceRange: "$$",
     url: "https://swiftpro.com.ng",
   };
@@ -62,7 +68,7 @@ export default function JSONLD() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: COMPANY_INFO.name,
+    name: companyInfo.name,
     url: "https://swiftpro.com.ng",
     potentialAction: {
       "@type": "SearchAction",
@@ -87,7 +93,7 @@ export default function JSONLD() {
         url: `https://swiftpro.com.ng/services/${service.slug}`,
         provider: {
           "@type": "Organization",
-          name: COMPANY_INFO.name,
+          name: companyInfo.name,
           url: "https://swiftpro.com.ng",
         },
         areaServed: {

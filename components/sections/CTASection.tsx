@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Phone, Clock, MapPin } from "lucide-react";
-import { COMPANY_INFO } from "@/lib/constants";
+import { useCompanyInfo } from "@/components/providers/CompanyInfoProvider";
 import { generateWhatsAppLink } from "@/lib/utils";
 
 export default function CTASection() {
+  const companyInfo = useCompanyInfo();
   const waLink = generateWhatsAppLink(
-    COMPANY_INFO.phoneRaw.replace(/\s/g, ""),
-    COMPANY_INFO.whatsappMessage
+    companyInfo.phoneRaw.replace(/\s/g, ""),
+    companyInfo.whatsappMessage
   );
 
   return (
@@ -98,7 +99,7 @@ export default function CTASection() {
             className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto"
           >
             {[
-              { icon: Phone, label: "Call Us", value: COMPANY_INFO.phone },
+              { icon: Phone, label: "Call Us", value: companyInfo.phone },
               { icon: Clock, label: "Business Hours", value: "Mon - Fri: 8AM - 6PM" },
               { icon: MapPin, label: "Location", value: "Central Business District, Abuja" },
             ].map((item, index) => (

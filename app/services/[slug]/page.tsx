@@ -6,7 +6,8 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/sections/WhatsAppButton";
 import PageHeader from "@/components/shared/PageHeader";
 import { getServiceBySlug, getServices } from "@/lib/api";
-import { COMPANY_INFO, SERVICES } from "@/lib/constants";
+import { SERVICES } from "@/lib/constants";
+import { getCompanyInfoServer } from "@/lib/company-info";
 import { generateWhatsAppLink } from "@/lib/utils";
 import { ArrowLeft, CheckCircle2, Server, Code, Shield, Cloud, Briefcase, Headphones } from "lucide-react";
 
@@ -87,8 +88,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   }
 
   const Icon = iconMap[service.icon] || Server;
+  const companyInfo = await getCompanyInfoServer();
   const waLink = generateWhatsAppLink(
-    COMPANY_INFO.phoneRaw.replace(/\s/g, ""),
+    companyInfo.phoneRaw.replace(/\s/g, ""),
     `Hello, I'm interested in ${service.title} services.`
   );
 

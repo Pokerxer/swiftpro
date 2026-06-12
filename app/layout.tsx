@@ -3,6 +3,8 @@ import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import CompanyInfoProvider from "@/components/providers/CompanyInfoProvider";
+import { getCompanyInfoServer } from "@/lib/company-info";
 import BackToTop from "@/components/shared/BackToTop";
 import CookieConsent from "@/components/shared/CookieConsent";
 import JSONLD from "@/components/shared/JSONLD";
@@ -75,15 +77,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const companyInfo = await getCompanyInfoServer();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <JSONLD />
+        <JSONLD companyInfo={companyInfo} />
       </head>
       <body
         className={`${inter.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} antialiased`}
@@ -92,9 +96,11 @@ export default function RootLayout({
         <ErrorBoundary>
           <ReduxProvider>
             <ThemeProvider>
-              {children}
-              <BackToTop />
-              <CookieConsent />
+              <CompanyInfoProvider value={companyInfo}>
+                {children}
+                <BackToTop />
+                <CookieConsent />
+              </CompanyInfoProvider>
             </ThemeProvider>
           </ReduxProvider>
         </ErrorBoundary>

@@ -8,7 +8,7 @@ import {
   Target, Rocket, Heart, ShieldCheck, Clock, Trophy, MapPin, Phone, Mail,
   Settings2, Lightbulb, CalendarClock, Headphones
 } from "lucide-react";
-import { COMPANY_INFO } from "@/lib/constants";
+import { useCompanyInfo } from "@/components/providers/CompanyInfoProvider";
 import { getTeamMembers, getWhyChooseUs, getStats } from "@/lib/api";
 
 const stats = [
@@ -30,6 +30,7 @@ const timeline = [
 ];
 
 export default function AboutSection() {
+  const COMPANY_INFO = useCompanyInfo();
   const [activeTab, setActiveTab] = useState<"story" | "mission" | "values">("story");
 
   return (
@@ -374,7 +375,7 @@ export default function AboutSection() {
             {[
               { icon: MapPin, label: "Location", value: COMPANY_INFO.address },
               { icon: Phone, label: "Phone", value: COMPANY_INFO.phone },
-              { icon: Mail, label: "Email", value: COMPANY_INFO.email },
+              ...COMPANY_INFO.emails.map((email) => ({ icon: Mail, label: "Email", value: email })),
             ].map((item, index) => (
               <motion.div
                 key={item.label}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Service, Project, BlogPost, TeamMember, Testimonial, Stat } from "@/types";
+import { DEFAULT_COMPANY_INFO } from "@/lib/company-info";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5002";
 
@@ -203,26 +204,14 @@ export async function getStats(): Promise<Stat[]> {
   }
 }
 
-// Company Info - Using a static fallback since backend doesn't have this
+// Company Info - falls back to the hardcoded constants if the backend is unreachable
 export async function getCompanyInfo(): Promise<any> {
   try {
     const response = await backendApi.get("/company");
     return response.data;
   } catch (error) {
     console.error("Error fetching company info:", error);
-    // Return default company info
-    return {
-      name: "SwiftPro Technologies",
-      tagline: "Innovating Your Digital Future",
-      description: "We deliver cutting-edge IT solutions tailored to your business needs.",
-      email: "info@swiftpro.com",
-phone: "+234 805 795 5859",
-  phoneRaw: "2348057955859",
-      whatsappMessage: "Hello, I'm interested in your services.",
-      address: "Lagos, Nigeria",
-      rcNumber: "8368089",
-      foundedYear: 2020,
-    };
+    return DEFAULT_COMPANY_INFO;
   }
 }
 

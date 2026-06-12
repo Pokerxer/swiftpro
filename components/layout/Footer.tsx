@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
-import { COMPANY_INFO, NAV_LINKS, SERVICES } from "@/lib/constants";
+import { NAV_LINKS, SERVICES } from "@/lib/constants";
+import { useCompanyInfo } from "@/components/providers/CompanyInfoProvider";
 
 export default function Footer() {
+  const COMPANY_INFO = useCompanyInfo();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -110,12 +112,14 @@ export default function Footer() {
                   {COMPANY_INFO.phone}
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-secondary flex-shrink-0" />
-                <a href={`mailto:${COMPANY_INFO.email}`} className="text-white/80 hover:text-white transition-colors text-sm">
-                  {COMPANY_INFO.email}
-                </a>
-              </li>
+              {COMPANY_INFO.emails.map((email) => (
+                <li key={email} className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-secondary flex-shrink-0" />
+                  <a href={`mailto:${email}`} className="text-white/80 hover:text-white transition-colors text-sm">
+                    {email}
+                  </a>
+                </li>
+              ))}
               <li className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-secondary flex-shrink-0" />
                 <span className="text-white/80 text-sm">Mon - Fri: 8:00 AM - 6:00 PM</span>

@@ -66,6 +66,20 @@ export interface Stat {
   label: string;
 }
 
+export interface CompanyInfo {
+  name: string;
+  tagline: string;
+  description: string;
+  email: string;
+  emails: string[];
+  phone: string;
+  phoneRaw: string;
+  whatsappMessage: string;
+  address: string;
+  rcNumber: string;
+  foundedYear: number;
+}
+
 export interface ContactFormData {
   name: string;
   email: string;

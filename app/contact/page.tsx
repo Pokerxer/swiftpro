@@ -10,7 +10,8 @@ import {
   Search, HelpCircle, X, Server, Code, Shield, Cloud, Briefcase, Headphones
 } from "lucide-react";
 import { contactFormSchema, ContactFormValues } from "@/lib/validations";
-import { COMPANY_INFO, SERVICE_OPTIONS, SERVICES } from "@/lib/constants";
+import { SERVICE_OPTIONS, SERVICES } from "@/lib/constants";
+import { useCompanyInfo } from "@/components/providers/CompanyInfoProvider";
 import { generateWhatsAppLink } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -72,6 +73,7 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function ContactPage() {
+  const COMPANY_INFO = useCompanyInfo();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -135,7 +137,9 @@ export default function ContactPage() {
   const contactInfo = [
     { icon: MapPin, label: "Office Address", value: COMPANY_INFO.address, color: "from-blue-500 to-cyan-500" },
     { icon: Phone, label: "Phone", value: COMPANY_INFO.phone, href: `tel:${COMPANY_INFO.phone}`, color: "from-green-500 to-emerald-500" },
-    { icon: Mail, label: "Email", value: COMPANY_INFO.email, href: `mailto:${COMPANY_INFO.email}`, color: "from-purple-500 to-pink-500" },
+    ...COMPANY_INFO.emails.map((email) => (
+      { icon: Mail, label: "Email", value: email, href: `mailto:${email}`, color: "from-purple-500 to-pink-500" }
+    )),
     { icon: Clock, label: "Business Hours", value: "Mon - Fri: 8:00 AM - 6:00 PM", color: "from-amber-500 to-orange-500" },
   ];
 

@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-import { COMPANY_INFO } from "@/lib/constants";
+import { useCompanyInfo } from "@/components/providers/CompanyInfoProvider";
 import { generateWhatsAppLink } from "@/lib/utils";
 
 export default function WhatsAppButton() {
+  const companyInfo = useCompanyInfo();
   const waLink = generateWhatsAppLink(
-    COMPANY_INFO.phoneRaw.replace(/\s/g, ""),
-    COMPANY_INFO.whatsappMessage
+    companyInfo.phoneRaw.replace(/\s/g, ""),
+    companyInfo.whatsappMessage
   );
 
   return (
