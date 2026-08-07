@@ -7,7 +7,7 @@ import { STATS as FALLBACK_STATS } from "@/lib/constants";
 import AnimatedCounter from "@/components/shared/AnimatedCounter";
 import { Users, Briefcase, Clock, ThumbsUp, Award, Globe, Star, TrendingUp } from "lucide-react";
 
-const defaultPartners = [
+const defaultPartners: { name: string; color: string; logo?: string }[] = [
   { name: "Finance", color: "#1D3E7E" },
   { name: "Healthcare", color: "#22543D" },
   { name: "Government", color: "#1A365D" },
@@ -213,13 +213,21 @@ export default function StatsSection() {
                     whileHover={{ scale: 1.1, y: -5 }}
                     className="flex-shrink-0 cursor-pointer group"
                   >
-                    <div 
-                      className="text-2xl md:text-3xl font-bold transition-all duration-300"
-                      style={{ color: logo.color }}
-                    >
-                      <span className="opacity-40 group-hover:opacity-100 transition-opacity">
-                        {logo.name}
-                      </span>
+                    <div className="flex items-center justify-center h-10 md:h-12 transition-all duration-300">
+                      {logo.logo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={logo.logo}
+                          alt={`${logo.name} logo`}
+                          loading="lazy"
+                          draggable={false}
+                          className="max-h-full max-w-[140px] md:max-w-[180px] object-contain opacity-60 grayscale dark:grayscale-0 dark:opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300"
+                        />
+                      ) : (
+                        <span className="opacity-40 group-hover:opacity-100 transition-opacity" style={{ color: logo.color }}>
+                          {logo.name}
+                        </span>
+                      )}
                     </div>
                   </motion.div>
                 ))}
